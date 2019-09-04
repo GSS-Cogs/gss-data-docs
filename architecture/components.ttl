@@ -30,7 +30,7 @@ onsgit:gss-utils a cogs:PythonPackage ;
 
 onsgit:databaker a cogs:PythonPackage ;
   rdfs:label "Databaker";
-  rdfs:comment "Wrangle complex spreadsheets into clean, normalised data tables";
+  rdfs:comment "ONS-OpenData fork";
 .
 
 cogs:JenkinsPipeline a owl:Class ;
@@ -96,4 +96,14 @@ cogs:RubyLibrary a owl:Class ;
 onsgit:csvlint a cogs:RubyLibrary ;
   rdfs:label "csvlint.rb" ;
   rdfs:comment "Fork of ODS csvlint Ruby app for validating CSVW" ;
+.
+
+cogs:WebApp a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Web app";
+.
+
+<https://git.floop.org.uk/git/ONS/csvlint-webapp.git> a cogs:WebApp ;
+  rdfs:label "csvlint-webapp" ;
+  cogs:requires onsgit:csvlint ;
 .
