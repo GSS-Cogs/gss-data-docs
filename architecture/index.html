@@ -19,7 +19,7 @@
     </nav>
     <div class="container-fluid">
       <h1>Software Components</h1>
-    <svg width="1280" height="1024"><style>
+    <svg width="1600" height="1024"><style>
 .node rect {
   fill: #fff;
 }
@@ -30,7 +30,7 @@
   stroke-width: 1.5px;
 }
 .card-node {
-    width: 16rem;
+    width: 18rem;
 }
 .card-header.PythonPackage {
     background-color: #3673a5;
@@ -134,9 +134,9 @@
           var svg = d3.select("svg"),
               svgGroup = svg.append("g");
           render(d3.select("svg g"), g);
-          var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
-          svgGroup.attr("transform", "translate(" + xCenterOffset + ", 20)");
+          svgGroup.attr("transform", "translate(20, 20)");
           svg.attr("height", g.graph().height + 40);
+          svg.attr("width", g.graph().width + 40);
         }
       });
     </script>
