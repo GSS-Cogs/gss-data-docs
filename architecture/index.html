@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/favicon.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>COGS Components</title>
     <script src="https://cdn.jsdelivr.net/npm/rdflib@1.0.4/dist/rdflib.min.js"></script>
@@ -10,8 +11,13 @@
     <script src="https://cdn.jsdelivr.net/npm/dagre-d3@0.6.3/dist/dagre-d3.min.js"></script>
   </head>
   <body>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="/">
+        <img src="/cogs.svg" alt="COGS" width="72"/>
+      </a>
+    </nav>
     <div class="container-fluid">
-      <h1>COGS Components</h1>
+      <h1>Software Components</h1>
     <svg width="1280" height="1024"><style>
 .node rect {
   fill: #fff;
@@ -59,10 +65,11 @@
           console.log("Error fetching data.");
         } else {
           console.log("Ok, parsed.");
-          var packages = new Set(store.each(undefined, RDF("type"), COGS("PythonPackage")).concat(
-            store.each(undefined, RDF('type'), COGS('ClojureLibrary')),
-            store.each(undefined, RDF('type'), COGS('JenkinsPlugin'))
-          ));
+          var packageTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("SoftwarePackage")));
+          var packages = new Set();
+          packageTypes.forEach(t => {
+            store.each(undefined, RDF("type"), t).forEach(p => packages.add(p));
+          });
           console.log(packages);
           var requires = store.statementsMatching(undefined, COGS('requires'), undefined);
           console.log(requires);
@@ -74,7 +81,7 @@
           packages.forEach(p => {
             nodes.add(p);
           });
-          var g = new dagreD3.graphlib.Graph().setGraph({});
+          var g = new dagreD3.graphlib.Graph().setGraph({rankDir: 'LR'});
           nodes.forEach(n => {
             var l = store.any(n, RDFS('label'));
             var c = store.any(n, RDFS('comment'));
