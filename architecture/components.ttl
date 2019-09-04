@@ -19,7 +19,7 @@ cogs:PythonPackage a owl:Class ;
 
 onsgit:gss-utils a cogs:PythonPackage ;
   rdfs:label "gss-utils" ;
-  rdfs:comment "Shared data transformation\nutilities for GSS data" ;
+  rdfs:comment "Shared data transformation utilities for GSS data" ;
   cogs:requires onsgit:databaker ;
 #  cogs:requires <https://pandas.pydata.org> ;
 .
@@ -67,7 +67,6 @@ cogs:ClojureLibrary a owl:Class ;
   rdfs:comment "Swirrl's implementation of W3C CSVW specification.";
 .
 
-
 cogs:JenkinsPlugin a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
   rdfs:label "Jenkins Plugin" ;
@@ -75,6 +74,8 @@ cogs:JenkinsPlugin a owl:Class ;
 
 <https://git.floop.org.uk/git/ONS/pmd-jenkins-library.git> a cogs:JenkinsPlugin ;
   rdfs:label "PMD Jenkins shared library" ;
+  rdfs:comment "Exposes PMD drafter/grafter interfaces to Jenkins for uploading and publishing data. Also provides a template transformation pipeline." ;
+  cogs:requires onsgit:databaker-docker, onsgit:csvlint-docker, onsgit:gdp-sparql-tests ;
 .
 
 onsgit:databaker-docker a cogs:DockerImage ;
@@ -142,4 +143,9 @@ onsgit:table2qb-docker a cogs:DockerImage ;
   rdfs:label "table2qb-docker" ;
   rdfs:comment "Bundles Swirrl's table2qb in a Docker container for use in Jenkins pipelines." ;
   cogs:requires <https://github.com/Swirrl/table2qb> ;
+.
+
+<https://ci.floop.org.uk> a cogs:WebApp ;
+  rdfs:label "Jenkins" ;
+  rdfs:comment "docker-compose based setup of Jenkins using latest official long-term-support version with additional plugins." ;
 .
