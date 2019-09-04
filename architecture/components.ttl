@@ -19,7 +19,7 @@ cogs:PythonPackage a owl:Class ;
 
 onsgit:gss-utils a cogs:PythonPackage ;
   rdfs:label "gss-utils" ;
-  rdfs:comment "Shared data transformation utilities for GSS data" ;
+  rdfs:comment "Shared data transformation\nutilities for GSS data" ;
   cogs:requires onsgit:databaker ;
   cogs:requires <https://pandas.pydata.org> ;
 .
@@ -50,9 +50,8 @@ cogs:DockerContainer a owl:Class ;
   rdfs:label "Docker Container" ;
 .
 
-cogs:csv2rdf-docker a cogs:DockerImage ;
+onsgit:csv2rdf-docker a cogs:DockerImage ;
   rdfs:label "CSV2RDF" ;
-  cogs:homePage <https://github.com/ONS-OpenData/csv2rdf-docker> ;
   rdfs:comment "Bundles Swrirrl's csv2rdf Clojure implementation for running in a Docker container."@en ;
   cogs:requires <https://github.com/Swirrl/csv2rdf> ;
 .
@@ -65,6 +64,7 @@ cogs:ClojureLibrary a owl:Class ;
 
 <https://github.com/Swirrl/csv2rdf> a cogs:ClojureLibrary ;
   rdfs:label "csv2rdf.clj" ;
+  rdfs:comment "Swirrl's implementation of W3C CSVW specification.";
 .
 
 
@@ -85,6 +85,7 @@ onsgit:databaker-docker a cogs:DockerImage ;
 
 onsgit:csvlint-docker a cogs:DockerImage ;
   rdfs:label "cloudfluff/csvlint" ;
+  rdfs:comment "Bundles the forked csvlint Ruby app in Docker for use in Jenkins Pipeline steps." ;
   cogs:requires onsgit:csvlint ;
 .
 
@@ -105,5 +106,27 @@ cogs:WebApp a owl:Class ;
 
 <https://git.floop.org.uk/git/ONS/csvlint-webapp.git> a cogs:WebApp ;
   rdfs:label "csvlint-webapp" ;
+  rdfs:comment "Trivial Ruby web application, bundled in Docker, to validate given CSVW (CSV and JSON) files." ;
   cogs:requires onsgit:csvlint ;
+.
+
+<https://git.floop.org.uk/git/alex/sparql-test-runner.git> a cogs:DockerImage ;
+  rdfs:label "sparql-test-runner" ;
+  rdfs:comment "Runs a suite of queries-as-tests." ;
+.
+
+onsgit:gdp-sparql-tests a cogs:DockerImage ;
+  rdfs:label "GDP ICs" ;
+  rdfs:comment "Tests data against RDF Data Cube and PMD integrity constraints.";
+  cogs:requires <https://git.floop.org.uk/git/alex/sparql-test-runner.git> ;
+.
+
+<https://git.floop.org.uk/git/ONS/jenkins-trello.git> a cogs:JenkinsPlugin ;
+  rdfs:label "Trello updater" ;
+  rdfs:comment "Jenkins plugin to update Trello card with current build state." ;
+.
+
+<https://git.floop.org.uk/git/ONS/jupyterhub.git> a cogs:WebApp ;
+  rdfs:label "COGS JupyterHub" ;
+  rdfs:comment "docker-compose based setup of the JupyterHub web application. Authenticates via github and spawns a container for each user.";
 .
