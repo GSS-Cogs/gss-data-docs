@@ -124,7 +124,7 @@
           });
           requires.forEach(s => {
             g.setEdge(s.subject.value, s.object.value, {label: 'requires',
-                                                        lineInterpolate: 'basis' });
+                                                        curve: d3.curveBasis });
           });
           var render = new dagreD3.render();
           var svg = d3.select("svg"),
