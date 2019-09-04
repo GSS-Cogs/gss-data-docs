@@ -99,7 +99,7 @@
             } else {
               html += 'Software Package';
             }
-            html += '</div><div class="card-body"><h3 class="card-title">';
+            html += '</div><div class="card-body"><h4 class="card-title text-wrap">';
             if (l !== undefined) {
               html += l.value;
             } else {
@@ -126,10 +126,6 @@
             g.setEdge(s.subject.value, s.object.value, {label: 'requires',
                                                         lineInterpolate: 'basis' });
           });
-//          g.nodes().forEach(v => {
-//            var node = g.node(v);
-//            node.rx = node.ry = 5;
-//          });
           var render = new dagreD3.render();
           var svg = d3.select("svg"),
               svgGroup = svg.append("g");
