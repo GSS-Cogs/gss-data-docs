@@ -21,12 +21,12 @@ onsgit:gss-utils a cogs:PythonPackage ;
   rdfs:label "gss-utils" ;
   rdfs:comment "Shared data transformation\nutilities for GSS data" ;
   cogs:requires onsgit:databaker ;
-  cogs:requires <https://pandas.pydata.org> ;
+#  cogs:requires <https://pandas.pydata.org> ;
 .
 
-<https://pandas.pydata.org> a cogs:PythonPackage ;
-  rdfs:label "Pandas";
-.
+#<https://pandas.pydata.org> a cogs:PythonPackage ;
+#  rdfs:label "Pandas";
+#.
 
 onsgit:databaker a cogs:PythonPackage ;
   rdfs:label "Databaker";
@@ -80,7 +80,7 @@ cogs:JenkinsPlugin a owl:Class ;
 onsgit:databaker-docker a cogs:DockerImage ;
   rdfs:label "cloudfluff/databaker" ;
   rdfs:comment "Databaker, Jupyter, Pandas and other tools";
-  cogs:requires onsgit:databaker, <https://pandas.pydata.org>, onsgit:gss-utils ;
+  cogs:requires onsgit:databaker, onsgit:gss-utils ; # <https://pandas.pydata.org>
 .
 
 onsgit:csvlint-docker a cogs:DockerImage ;
@@ -129,4 +129,17 @@ onsgit:gdp-sparql-tests a cogs:DockerImage ;
 <https://git.floop.org.uk/git/ONS/jupyterhub.git> a cogs:WebApp ;
   rdfs:label "COGS JupyterHub" ;
   rdfs:comment "docker-compose based setup of the JupyterHub web application. Authenticates via github and spawns a container for each user.";
+  cogs:requires onsgit:databaker-docker ;
+.
+
+<https://github.com/Swirrl/table2qb> a cogs:ClojureLibrary ;
+  rdfs:label "table2qb" ;
+  rdfs:comment "Pipelines to create RDF Data Cubes, DSDs and SKOS concept hierarchies from CSV using CSVW and CSV2RDF." ;
+  cogs:requires <https://github.com/Swirrl/csv2rdf> ;
+.
+
+onsgit:table2qb-docker a cogs:DockerImage ;
+  rdfs:label "table2qb-docker" ;
+  rdfs:comment "Bundles Swirrl's table2qb in a Docker container for use in Jenkins pipelines." ;
+  cogs:requires <https://github.com/Swirrl/table2qb> ;
 .
