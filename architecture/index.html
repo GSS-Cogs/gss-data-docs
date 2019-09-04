@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>COGS Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/rdflib@1.0.4/dist/rdflib.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dagre-d3@0.6.3/dist/dagre-d3.min.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1>COGS Components</h1>
+    <svg width="1280" height="1024"><style>
+.node rect {
+  fill: #fff;
+}
+
+.edgePath path {
+  stroke: #333;
+  fill: #333;
+  stroke-width: 1.5px;
+}
+.card-node {
+    width: 16rem;
+}
+.card-header.PythonPackage {
+    background-color: #3673a5;
+}
+.card-header.ClojureLibrary {
+    background-color: #63b132;
+}
+.card-header.DockerImage {
+    background-color: #359eee;
+}
+.card-header.JenkinsPlugin {
+    background-color: #335061;
+    color: white;
+}
+.card-header.RubyLibrary {
+    background-color: #f7c2ae;
+}
+    </style></svg>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+      var store = $rdf.graph();
+      var fetcher = new $rdf.Fetcher(store, 5000);
+      var components_url = new URL("components.ttl", window.location);
+      var COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
+      var RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+      var RDFS = $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
+
+      fetcher.nowOrWhenFetched(components_url.href, function(ok, body, xhr) {
+        if (!ok) {
+          console.log("Error fetching data.");
+        } else {
+          console.log("Ok, parsed.");
+          var packages = new Set(store.each(undefined, RDF("type"), COGS("PythonPackage")).concat(
+            store.each(undefined, RDF('type'), COGS('ClojureLibrary')),
+            store.each(undefined, RDF('type'), COGS('JenkinsPlugin'))
+          ));
+          console.log(packages);
+          var requires = store.statementsMatching(undefined, COGS('requires'), undefined);
+          console.log(requires);
+          var nodes = new Set();
+          requires.forEach(s => {
+            nodes.add(s.subject);
+            nodes.add(s.object);
+          });
+          packages.forEach(p => {
+            nodes.add(p);
+          });
+          var g = new dagreD3.graphlib.Graph().setGraph({});
+          nodes.forEach(n => {
+            var l = store.any(n, RDFS('label'));
+            var c = store.any(n, RDFS('comment'));
+            var t = store.any(n, RDF('type'))
+            var tl = store.any(t, RDFS('label'));
+            var html = '<div class="card card-node">';
+            if (t !== undefined && t.value.startsWith(COGS().value)) {
+              html += '<div class="card-header ' + t.value.substring(COGS().value.length) + '">';
+            } else {
+              html += '<div class="card-header">';
+            }
+            if (tl !== undefined) {
+              html += tl;
+            } else {
+              html += 'Software Package';
+            }
+            html += '</div><div class="card-body"><h3 class="card-title">';
+            if (l !== undefined) {
+              html += l.value;
+            } else {
+              html += 'Unknown';
+            }
+            html += '</h3><p class="card-text">';
+            if (c !== undefined) {
+              html += c.value;
+            }
+            html += '</p></div></div>';
+            g.setNode(n.value, {
+              labelType: 'html',
+              label: html,
+              padding: 0
+            });
+          });
+          requires.forEach(s => {
+            g.setEdge(s.subject.value, s.object.value, {label: 'requires',
+                                                        lineInterpolate: 'basis' });
+          });
+//          g.nodes().forEach(v => {
+//            var node = g.node(v);
+//            node.rx = node.ry = 5;
+//          });
+          var render = new dagreD3.render();
+          var svg = d3.select("svg"),
+              svgGroup = svg.append("g");
+          render(d3.select("svg g"), g);
+          var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
+          svgGroup.attr("transform", "translate(" + xCenterOffset + ", 20)");
+          svg.attr("height", g.graph().height + 40);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix onsgit: <https://github.com/ONS-OpenData/> .
+@prefix cogs: <http://gss-cogs.uk/def/arch/> .
+
+<http://gss-cogs.uk/def/arch> a owl:Ontology;
+  rdfs:label "COGS Architecture" ;
+.
+
+cogs:SoftwarePackage a owl:Class ;
+  rdfs:label "Software package" ;
+.
+
+cogs:PythonPackage a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Python package" ;
+.
+
+onsgit:gss-utils a cogs:PythonPackage ;
+  rdfs:label "gss-utils" ;
+  rdfs:comment "Shared data transformation utilities for GSS data" ;
+  cogs:requires onsgit:databaker ;
+  cogs:requires <https://pandas.pydata.org> ;
+.
+
+<https://pandas.pydata.org> a cogs:PythonPackage ;
+  rdfs:label "Pandas";
+.
+
+onsgit:databaker a cogs:PythonPackage ;
+  rdfs:label "Databaker";
+  rdfs:comment "Wrangle complex spreadsheets into clean, normalised data tables";
+.
+
+cogs:JenkinsPipeline a owl:Class ;
+  rdfs:label "Jenkins Pipeline" ;
+.
+
+cogs:TemplateJenkinsPipeline rdfs:subClassOf cogs:JenkinsPipeline;
+  cogs:source <https://git.floop.org.uk/ONS/pmd-jenkins-library/blob/master/vars/transformPipeline.groovy> ;
+  cogs:pipelineStep cogs:templateStep_clean, cogs:templateStep_transform, cogs:templateStep_validate, cogs:templateStep_upload, cogs:templateStep_test, cogs:templateStep_publish ;
+.
+
+cogs:DockerImage a owl:Class ;
+  rdfs:label "Docker Image" ;
+.
+
+cogs:DockerContainer a owl:Class ;
+  rdfs:label "Docker Container" ;
+.
+
+cogs:csv2rdf-docker a cogs:DockerImage ;
+  rdfs:label "CSV2RDF" ;
+  cogs:homePage <https://github.com/ONS-OpenData/csv2rdf-docker> ;
+  rdfs:comment "Bundles Swrirrl's csv2rdf Clojure implementation for running in a Docker container."@en ;
+  cogs:requires <https://github.com/Swirrl/csv2rdf> ;
+.
+
+
+cogs:ClojureLibrary a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Clojure Library";
+.
+
+<https://github.com/Swirrl/csv2rdf> a cogs:ClojureLibrary ;
+  rdfs:label "csv2rdf.clj" ;
+.
+
+
+cogs:JenkinsPlugin a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Jenkins Plugin" ;
+.
+
+<https://git.floop.org.uk/git/ONS/pmd-jenkins-library.git> a cogs:JenkinsPlugin ;
+  rdfs:label "PMD Jenkins shared library" ;
+.
+
+onsgit:databaker-docker a cogs:DockerImage ;
+  rdfs:label "cloudfluff/databaker" ;
+  rdfs:comment "Databaker, Jupyter, Pandas and other tools";
+  cogs:requires onsgit:databaker, <https://pandas.pydata.org>, onsgit:gss-utils ;
+.
+
+onsgit:csvlint-docker a cogs:DockerImage ;
+  rdfs:label "cloudfluff/csvlint" ;
+  cogs:requires onsgit:csvlint ;
+.
+
+cogs:RubyLibrary a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Ruby Library" ;
+.
+
+onsgit:csvlint a cogs:RubyLibrary ;
+  rdfs:label "csvlint.rb" ;
+  rdfs:comment "Fork of ODS csvlint Ruby app for validating CSVW" ;
+.
