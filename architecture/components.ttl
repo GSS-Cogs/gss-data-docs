@@ -75,7 +75,7 @@ cogs:JenkinsPlugin a owl:Class ;
 <https://git.floop.org.uk/git/ONS/pmd-jenkins-library.git> a cogs:JenkinsPlugin ;
   rdfs:label "PMD Jenkins shared library" ;
   rdfs:comment "Exposes PMD drafter/grafter interfaces to Jenkins for uploading and publishing data. Also provides a template transformation pipeline." ;
-  cogs:requires onsgit:databaker-docker, onsgit:csvlint-docker, onsgit:gdp-sparql-tests ;
+  cogs:requires onsgit:databaker-docker, onsgit:csvlint-docker, onsgit:gdp-sparql-tests, <https://git.floop.org.uk/git/ONS/jenkins-trello.git> ;
 .
 
 onsgit:databaker-docker a cogs:DockerImage ;
