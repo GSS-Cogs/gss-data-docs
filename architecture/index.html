@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="../favicon.png">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>COGS Components</title>
     <script src="https://cdn.jsdelivr.net/npm/rdflib@1.0.4/dist/rdflib.min.js"></script>
@@ -104,11 +105,17 @@
             } else {
               html += 'Unknown';
             }
-            html += '</h3><p class="card-text">';
+            html += '</h3><p class="card-text text-wrap">';
             if (c !== undefined) {
               html += c.value;
             }
-            html += '</p></div></div>';
+            html += '</p>';
+            if (n.value.startsWith('https://github.com/')) {
+              html += '<a href="' + n.value + '"><i class="pull-right fa fa-github"></i></a>';
+            } else {
+              html += '<a href="' + n.value + '"><i class="pull-right fa fa-external-link"></i></a>';
+            }
+            html += '</div></div>';
             g.setNode(n.value, {
               labelType: 'html',
               label: html,
