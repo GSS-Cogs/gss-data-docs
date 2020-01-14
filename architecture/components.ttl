@@ -1,7 +1,7 @@
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
-@prefix onsgit: <https://github.com/ONS-OpenData/> .
+@prefix cogsgit: <https://github.com/GSS-Cogs/> .
 @prefix cogs: <http://gss-cogs.uk/def/arch/> .
 
 <http://gss-cogs.uk/def/arch> a owl:Ontology;
@@ -17,10 +17,10 @@ cogs:PythonPackage a owl:Class ;
   rdfs:label "Python package" ;
 .
 
-onsgit:gss-utils a cogs:PythonPackage ;
+cogsgit:gss-utils a cogs:PythonPackage ;
   rdfs:label "gss-utils" ;
   rdfs:comment "Shared data transformation utilities for GSS data" ;
-  cogs:requires onsgit:databaker ;
+  cogs:requires cogsgit:databaker ;
 #  cogs:requires <https://pandas.pydata.org> ;
 .
 
@@ -28,7 +28,7 @@ onsgit:gss-utils a cogs:PythonPackage ;
 #  rdfs:label "Pandas";
 #.
 
-onsgit:databaker a cogs:PythonPackage ;
+cogsgit:databaker a cogs:PythonPackage ;
   rdfs:label "Databaker";
   rdfs:comment "ONS-OpenData fork";
 .
@@ -50,7 +50,7 @@ cogs:DockerContainer a owl:Class ;
   rdfs:label "Docker Container" ;
 .
 
-onsgit:csv2rdf-docker a cogs:DockerImage ;
+cogsgit:csv2rdf-docker a cogs:DockerImage ;
   rdfs:label "CSV2RDF" ;
   rdfs:comment "Bundles Swrirrl's csv2rdf Clojure implementation for running in a Docker container."@en ;
   cogs:requires <https://github.com/Swirrl/csv2rdf> ;
@@ -75,19 +75,19 @@ cogs:JenkinsPlugin a owl:Class ;
 <https://git.floop.org.uk/git/ONS/pmd-jenkins-library.git> a cogs:JenkinsPlugin ;
   rdfs:label "PMD Jenkins shared library" ;
   rdfs:comment "Exposes PMD drafter/grafter interfaces to Jenkins for uploading and publishing data. Also provides a template transformation pipeline." ;
-  cogs:requires onsgit:databaker-docker, onsgit:csvlint-docker, onsgit:gdp-sparql-tests, <https://git.floop.org.uk/git/ONS/jenkins-trello.git> ;
+  cogs:requires cogsgit:databaker-docker, cogsgit:csvlint-docker, cogsgit:gdp-sparql-tests, <https://git.floop.org.uk/git/ONS/jenkins-trello.git> ;
 .
 
-onsgit:databaker-docker a cogs:DockerImage ;
+cogsgit:databaker-docker a cogs:DockerImage ;
   rdfs:label "cloudfluff/databaker" ;
   rdfs:comment "Databaker, Jupyter, Pandas and other tools";
-  cogs:requires onsgit:databaker, onsgit:gss-utils ; # <https://pandas.pydata.org>
+  cogs:requires cogsgit:databaker, cogsgit:gss-utils ; # <https://pandas.pydata.org>
 .
 
-onsgit:csvlint-docker a cogs:DockerImage ;
+cogsgit:csvlint-docker a cogs:DockerImage ;
   rdfs:label "cloudfluff/csvlint" ;
   rdfs:comment "Bundles the forked csvlint Ruby app in Docker for use in Jenkins Pipeline steps." ;
-  cogs:requires onsgit:csvlint ;
+  cogs:requires cogsgit:csvlint ;
 .
 
 cogs:RubyLibrary a owl:Class ;
@@ -95,7 +95,7 @@ cogs:RubyLibrary a owl:Class ;
   rdfs:label "Ruby Library" ;
 .
 
-onsgit:csvlint a cogs:RubyLibrary ;
+cogsgit:csvlint a cogs:RubyLibrary ;
   rdfs:label "csvlint.rb" ;
   rdfs:comment "Fork of ODS csvlint Ruby app for validating CSVW" ;
 .
@@ -108,7 +108,7 @@ cogs:WebApp a owl:Class ;
 <https://git.floop.org.uk/git/ONS/csvlint-webapp.git> a cogs:WebApp ;
   rdfs:label "csvlint-webapp" ;
   rdfs:comment "Trivial Ruby web application, bundled in Docker, to validate given CSVW (CSV and JSON) files." ;
-  cogs:requires onsgit:csvlint ;
+  cogs:requires cogsgit:csvlint ;
 .
 
 <https://git.floop.org.uk/git/alex/sparql-test-runner.git> a cogs:DockerImage ;
@@ -116,7 +116,7 @@ cogs:WebApp a owl:Class ;
   rdfs:comment "Runs a suite of queries-as-tests." ;
 .
 
-onsgit:gdp-sparql-tests a cogs:DockerImage ;
+cogsgit:gdp-sparql-tests a cogs:DockerImage ;
   rdfs:label "GDP ICs" ;
   rdfs:comment "Tests data against RDF Data Cube and PMD integrity constraints.";
   cogs:requires <https://git.floop.org.uk/git/alex/sparql-test-runner.git> ;
@@ -130,7 +130,7 @@ onsgit:gdp-sparql-tests a cogs:DockerImage ;
 <https://git.floop.org.uk/git/ONS/jupyterhub.git> a cogs:WebApp ;
   rdfs:label "COGS JupyterHub" ;
   rdfs:comment "docker-compose based setup of the JupyterHub web application. Authenticates via github and spawns a container for each user.";
-  cogs:requires onsgit:databaker-docker ;
+  cogs:requires cogsgit:databaker-docker ;
 .
 
 <https://github.com/Swirrl/table2qb> a cogs:ClojureLibrary ;
@@ -139,7 +139,7 @@ onsgit:gdp-sparql-tests a cogs:DockerImage ;
   cogs:requires <https://github.com/Swirrl/csv2rdf> ;
 .
 
-onsgit:table2qb-docker a cogs:DockerImage ;
+cogsgit:table2qb-docker a cogs:DockerImage ;
   rdfs:label "table2qb-docker" ;
   rdfs:comment "Bundles Swirrl's table2qb in a Docker container for use in Jenkins pipelines." ;
   cogs:requires <https://github.com/Swirrl/table2qb> ;
