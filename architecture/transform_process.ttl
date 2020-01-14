@@ -94,6 +94,12 @@ cogs:refers_to a owl:ObjectProperty ;
   cogs:vis cogs:edge ;
 .
 
+cogs:fetches a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "fetches" ;
+  cogs:vis cogs:edge ;
+.
+
 :jupyter_transform a cogs:Process ;
   rdfs:label "Spreadsheet transform" ;
   rdfs:comment "A Jupyter notebook using Databaker, Pandas and gss-utils to convert a spreadsheet to Tidy data.";
@@ -178,7 +184,7 @@ cogs:refers_to a owl:ObjectProperty ;
   rdfs:comment "Validates CSV against a schema constraints including primary and foreign keys." ;
   cogs:vis cogs:node ;
   cogs:container :jenkins_pipeline ;
-  cogs:refers_to :codelists_csv ;
+  cogs:fetches :codelists_csv ;
 .
 
 :observations_schema a cogs:Resource ;
@@ -186,4 +192,5 @@ cogs:refers_to a owl:ObjectProperty ;
   cogs:vis cogs:node ;
   cogs:container :jenkins_pipeline ;
   cogs:input_to :csvlint ;
+  cogs:refers_to :codelists_csv ;
 .
