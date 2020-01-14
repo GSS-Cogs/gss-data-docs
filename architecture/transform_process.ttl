@@ -1,0 +1,147 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix cogsgit: <https://github.com/GSS-Cogs/> .
+@prefix cogs: <http://gss-cogs.uk/def/arch/> .
+
+<http://gss-cogs.uk/def/arch> a owl:Ontology;
+  rdfs:label "COGS Architecture" ;
+.
+
+cogs:vis a owl:AnnotationProperty ;
+  rdfs:label "visualise as" ;
+.
+
+cogs:style a owl:Annotation ;
+  rdfs:label "style" ;
+.
+
+cogs:container a owl:Annotation ;
+  rdfs:label "contained by" ;
+.
+
+cogs:node a owl:Thing .
+cogs:edge a owl:Thing .
+
+cogs:Process a owl:Class ;
+  rdfs:label "Process" ;
+.
+
+cogs:action a owl:ObjectProperty ;
+  rdfs:label "Action" ;
+.
+
+cogs:Resource a owl:Class ;
+  rdfs:label "Resource" ;
+.
+
+cogs:Container a owl:Class ;
+  rdfs:label "Container" ;
+.
+
+:PMD a cogs:Container ;
+  rdfs:label "Publish my Data" ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #dddddd; stroke: #999" ;
+.
+
+:table2qb a cogs:Container ;
+  rdfs:label "table2qb" ;
+  cogs:container :PMD ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #bbbbbb; stroke: #999;" ;
+.
+
+:table2qb_cube a cogs:Process ;
+  rdfs:label "cube-pipeline" ;
+  rdfs:comment "Generates cube RDF for the given input CSV and columns configuration." ;
+  cogs:container :table2qb ;
+  cogs:vis cogs:node ;
+  cogs:generates :data_cube ;
+.
+
+:columns_csv a cogs:Resource ;
+  rdfs:label "columns.csv" ;
+  cogs:vis cogs:node ;
+  cogs:input_to :table2qb_cube ;
+  cogs:container :github_ref ;
+.
+
+:observations_csv a cogs:Resource ;
+  rdfs:label "observations.csv" ;
+  cogs:vis cogs:node ;
+  cogs:input_to :table2qb_cube ;
+  cogs:container :jenkins_pipeline ;
+.
+
+cogs:generates a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "generates" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:input_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "input" ;
+  cogs:vis cogs:edge;
+.
+
+cogs:refers_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "refers to" ;
+  cogs:vis cogs:edge ;
+.
+
+:jupyter_transform a cogs:Process ;
+  rdfs:label "Spreadsheet transform" ;
+  cogs:vis cogs:node ;
+  cogs:generates :observations_csv ;
+  cogs:container :jenkins_pipeline ;
+.
+
+:data_cube a cogs:Resource ;
+  rdfs:label "Data Cube" ;
+  cogs:vis cogs:node ;
+  cogs:container :PMD ;
+  cogs:refers_to :components ;
+.
+
+#:jenkins_upload a cogs:Process ;
+#  rdfs:label "Upload to PMD" ;
+#  cogs:vis cogs:node ;
+#  cogs:container :jenkins_pipeline ;
+#.
+
+:jenkins_pipeline a cogs:Container ;
+  rdfs:label "Jenkins Pipeline" ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #aaaaee; stroke: #999;" ;
+.
+
+:github_ref a cogs:Container ;
+  rdfs:label "Reference data" ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #444; stroke: aaa;" ;
+.
+
+:components_csv a cogs:Resource ;
+  rdfs:label "components.csv" ;
+  cogs:vis cogs:node ;
+  cogs:container :github_ref ;
+  cogs:input_to :table2qb_comp ;
+.
+
+:table2qb_comp a cogs:Process ;
+  rdfs:label "components-pipeline" ;
+  rdfs:comment "Generates RDF for the given components CSV file." ;
+  cogs:container :table2qb ;
+  cogs:vis cogs:node ;
+  cogs:generates :components ;
+.
+
+:components a cogs:Resource ;
+  rdfs:label "Components definitions" ;
+  rdfs:comment "Definitions of dimensions, attributes and measures." ;
+  cogs:vis cogs:node ;
+  cogs:container :PMD ;
+.
