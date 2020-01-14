@@ -21,10 +21,10 @@
           <li class="nav-item">
             <a class="nav-link" href="./">Architecture</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="components.html">Components</a></a>
-          </li>
           <li class="nav-item active">
+            <a class="nav-link" href="components.html">Components</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="transformation.html">Transformation</a>
           </li>
         </ul>
@@ -66,77 +66,77 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script>
-      var store = $rdf.graph();
-      var fetcher = new $rdf.Fetcher(store, 5000);
-      var info_url = new URL("transform_process.ttl", window.location);
-      var COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
-      var RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-      var RDFS = $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
+      const store = $rdf.graph();
+      const fetcher = new $rdf.Fetcher(store, 5000);
+      const components_url = new URL("components.ttl", window.location);
+      const COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
+      const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+      const RDFS = $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
 
-      fetcher.nowOrWhenFetched(info_url.href, function(ok, body, xhr) {
+      fetcher.nowOrWhenFetched(components_url.href, function(ok, body, xhr) {
         if (!ok) {
           console.log("Error fetching data.");
         } else {
           console.log("Ok, parsed.");
-          const actionProps = new Set(store.each(undefined, RDFS("subPropertyOf"), COGS("action")));
-          const processTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("Process")));
-          const nodes = new Set(store.each(undefined, COGS("vis"), COGS("node")));
-          const properties = new Set(store.each(undefined, COGS("vis"), COGS("edge")));
-          const g = new dagreD3.graphlib.Graph({compound: true}).setGraph({rankDir: 'LR'});
+          const packageTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("SoftwarePackage")));
+          const packages = new Set();
+          packageTypes.forEach(t => {
+            store.each(undefined, RDF("type"), t).forEach(p => packages.add(p));
+          });
+          console.log(packages);
+          const requires = store.statementsMatching(undefined, COGS('requires'), undefined);
+          console.log(requires);
+          const nodes = new Set();
+          requires.forEach(s => {
+            nodes.add(s.subject);
+            nodes.add(s.object);
+          });
+          packages.forEach(p => {
+            nodes.add(p);
+          });
+          const g = new dagreD3.graphlib.Graph().setGraph({rankDir: 'LR'});
           nodes.forEach(n => {
             const l = store.any(n, RDFS('label'));
             const c = store.any(n, RDFS('comment'));
             const t = store.any(n, RDF('type'))
             const tl = store.any(t, RDFS('label'));
-            if (t.value === COGS('Container').value) {
-              const style = store.any(n, COGS("style"));
-              g.setNode(n.value, {
-                label: l.value,
-                clusterLabelPos: 'top',
-                style: style ? style : 'fill: #bbffbb; stroke: #999;'
-              });
+            let html = '<div class="card card-node">';
+            if (t !== undefined && t.value.startsWith(COGS().value)) {
+              html += '<div class="card-header ' + t.value.substring(COGS().value.length) + '">';
             } else {
-              let html = '<div class="card card-node">';
-              if (t !== undefined && t.value.startsWith(COGS().value)) {
-                html += '<div class="card-header ' + t.value.substring(COGS().value.length) + '">';
-              } else {
-                html += '<div class="card-header">';
-              }
-              if (tl !== undefined) {
-                html += tl;
-              } else {
-                html += 'Process';
-              }
-              html += '</div><div class="card-body"><h4 class="card-title text-wrap">';
-              if (l !== undefined) {
-                html += l.value;
-              } else {
-                html += 'Unknown';
-              }
-              html += '</h3><p class="card-text text-wrap">';
-              if (c !== undefined) {
-                html += c.value;
-              }
-              html += '</p>';
-              html += '</div></div>';
-              g.setNode(n.value, {
-                labelType: 'html',
-                label: html,
-                padding: 0
-              });
+              html += '<div class="card-header">';
             }
-          });
-          actionProps.forEach(prop => {
-            const propLabel = store.any(prop, RDFS('label'));
-            store.statementsMatching(undefined, prop, undefined).forEach(stmt => {
-              g.setEdge(stmt.subject.value, stmt.object.value, {
-                label: propLabel.value,
-                curve: d3.curveBasis
-              });
+            if (tl !== undefined) {
+              html += tl;
+            } else {
+              html += 'Software Package';
+            }
+            html += '</div><div class="card-body"><h4 class="card-title text-wrap">';
+            if (l !== undefined) {
+              html += l.value;
+            } else {
+              html += 'Unknown';
+            }
+            html += '</h3><p class="card-text text-wrap">';
+            if (c !== undefined) {
+              html += c.value;
+            }
+            html += '</p>';
+            if (n.value.startsWith('https://github.com/')) {
+              html += '<a href="' + n.value + '"><i class="pull-right fa fa-github"></i></a>';
+            } else {
+              html += '<a href="' + n.value + '"><i class="pull-right fa fa-external-link"></i></a>';
+            }
+            html += '</div></div>';
+            g.setNode(n.value, {
+              labelType: 'html',
+              label: html,
+              padding: 0
             });
           });
-          store.statementsMatching(undefined, COGS('container'), undefined).forEach(stmt => {
-            g.setParent(stmt.subject.value, stmt.object.value);
+          requires.forEach(s => {
+            g.setEdge(s.subject.value, s.object.value, {label: 'requires',
+                                                        curve: d3.curveBasis });
           });
           const render = new dagreD3.render();
           const svg = d3.select("svg"),
