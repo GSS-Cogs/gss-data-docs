@@ -39,6 +39,10 @@ cogs:Container a owl:Class ;
   rdfs:label "Container" ;
 .
 
+cogs:Library a owl:Class ;
+  rdfs:label "Library" ;
+.
+
 :PMD a cogs:Container ;
   rdfs:label "Publish my Data" ;
   cogs:vis cogs:node ;
@@ -100,16 +104,37 @@ cogs:fetches a owl:ObjectProperty ;
   cogs:vis cogs:edge ;
 .
 
-:jupyter_transform a cogs:Process ;
+cogs:uses a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "uses" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:scrapes a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "scrapes" ;
+  cogs:vis cogs:edge ;
+.
+
+:jupyter_transform a cogs:Container ;
   rdfs:label "Spreadsheet transform" ;
+  cogs:vis cogs:node ;
+  cogs:container :jenkins_pipeline ;
+  cogs:style "fill: #99d; stroke: #999;" ;
+.
+
+:main_py a cogs:Process ;
+  rdfs:label "main.py" ;
   rdfs:comment "A Jupyter notebook using Databaker, Pandas and gss-utils to convert a spreadsheet to Tidy data.";
   cogs:vis cogs:node ;
-  cogs:generates :observations_csv, :observations_schema ;
-  cogs:container :jenkins_pipeline ;
+  cogs:generates :observations_csv ;
+  cogs:uses :gss-utils ;
+  cogs:container :jupyter_transform ;
 .
 
 :data_cube a cogs:Resource ;
   rdfs:label "Data Cube" ;
+  rdfs:comment "Observations and data structure definition." ;
   cogs:vis cogs:node ;
   cogs:container :PMD ;
   cogs:refers_to :components ;
@@ -189,8 +214,41 @@ cogs:fetches a owl:ObjectProperty ;
 
 :observations_schema a cogs:Resource ;
   rdfs:label "observations.csv-schema.json" ;
+  rdfs:comment "CSV on the Web definition of columns, datatypes and keys." ;
   cogs:vis cogs:node ;
   cogs:container :jenkins_pipeline ;
   cogs:input_to :csvlint ;
   cogs:refers_to :codelists_csv ;
+.
+
+:gss-utils a cogs:Library ;
+  rdfs:label "gss-utils" ;
+  rdfs:comment "Python library for metadata scraping, automated dataset discovery and CSVW." ;
+  cogs:vis cogs:node ;
+  cogs:generates :observations_schema, :dataset_metadata ;
+  cogs:fetches :columns_csv, :components_csv, :codelists_csv ;
+  cogs:container :jupyter_transform ;
+#  cogs:scrapes :published_data ;
+.
+
+#:published_data a cogs:Resource ;
+#  rdfs:label "Published Data" ;
+#  rdfs:comment "Statistical data published online as spreadsheets." ;
+#  cogs:vis cogs:node ;
+#.
+
+:dataset_metadata a cogs:Resource ;
+  rdfs:label "observations.csv-metadata.trig" ;
+  rdfs:comment "DCAT dataset metadata." ;
+  cogs:vis cogs:node ;
+  cogs:container :jenkins_pipeline ;
+  cogs:input_to :dataset_metadata_pmd ;
+.
+
+:dataset_metadata_pmd a cogs:Resource ;
+  rdfs:label "Dataset Metadata" ;
+  rdfs:comment "DCAT dataset metadata." ;
+  cogs:vis cogs:node ;
+  cogs:container :PMD ;
+  cogs:refers_to :data_cube ;
 .
