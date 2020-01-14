@@ -72,7 +72,7 @@ cogs:Container a owl:Class ;
   rdfs:label "observations.csv" ;
   rdfs:comment "Tidy Data: one row per observation, one column per dimension." ;
   cogs:vis cogs:node ;
-  cogs:input_to :table2qb_cube ;
+  cogs:input_to :table2qb_cube, :csvlint ;
   cogs:container :jenkins_pipeline ;
 .
 
@@ -96,9 +96,9 @@ cogs:refers_to a owl:ObjectProperty ;
 
 :jupyter_transform a cogs:Process ;
   rdfs:label "Spreadsheet transform" ;
-  rdfs:comment "A Jupyter notebook using Databaker, Pandas and gss-utils to convert spreadsheet to Tidy data";
+  rdfs:comment "A Jupyter notebook using Databaker, Pandas and gss-utils to convert a spreadsheet to Tidy data.";
   cogs:vis cogs:node ;
-  cogs:generates :observations_csv ;
+  cogs:generates :observations_csv, :observations_schema ;
   cogs:container :jenkins_pipeline ;
 .
 
@@ -171,4 +171,19 @@ cogs:refers_to a owl:ObjectProperty ;
   rdfs:comment "A series of SKOS Concept Schemes." ;
   cogs:vis cogs:node ;
   cogs:container :PMD ;
+.
+
+:csvlint a cogs:Process ;
+  rdfs:label "csvlint" ;
+  rdfs:comment "Validates CSV against a schema constraints including primary and foreign keys." ;
+  cogs:vis cogs:node ;
+  cogs:container :jenkins_pipeline ;
+  cogs:refers_to :codelists_csv ;
+.
+
+:observations_schema a cogs:Resource ;
+  rdfs:label "observations.csv-schema.json" ;
+  cogs:vis cogs:node ;
+  cogs:container :jenkins_pipeline ;
+  cogs:input_to :csvlint ;
 .
