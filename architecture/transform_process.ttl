@@ -77,7 +77,7 @@ cogs:Library a owl:Class ;
   rdfs:comment "Tidy Data: one row per observation, one column per dimension." ;
   cogs:vis cogs:node ;
   cogs:input_to :table2qb_cube, :csvlint ;
-  cogs:container :jenkins_pipeline ;
+  cogs:container :transform_output ;
 .
 
 cogs:generates a owl:ObjectProperty ;
@@ -116,13 +116,6 @@ cogs:scrapes a owl:ObjectProperty ;
   cogs:vis cogs:edge ;
 .
 
-:jupyter_transform a cogs:Container ;
-  rdfs:label "Spreadsheet transform" ;
-  cogs:vis cogs:node ;
-  cogs:container :jenkins_pipeline ;
-  cogs:style "fill: #99d; stroke: #999;" ;
-.
-
 :main_py a cogs:Process ;
   rdfs:label "main.py" ;
   rdfs:comment "A Jupyter notebook using Databaker, Pandas and gss-utils to convert a spreadsheet to Tidy data.";
@@ -136,7 +129,7 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "Data Cube" ;
   rdfs:comment "Observations and data structure definition." ;
   cogs:vis cogs:node ;
-  cogs:container :PMD ;
+  cogs:container :triplestore ;
   cogs:refers_to :components ;
   cogs:refers_to :codelists ;
 .
@@ -178,7 +171,7 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "Components definitions" ;
   rdfs:comment "Definitions of dimensions, attributes and measures." ;
   cogs:vis cogs:node ;
-  cogs:container :PMD ;
+  cogs:container :triplestore ;
 .
 
 :codelists_csv a cogs:Resource ;
@@ -201,7 +194,7 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "Codelists" ;
   rdfs:comment "A series of SKOS Concept Schemes." ;
   cogs:vis cogs:node ;
-  cogs:container :PMD ;
+  cogs:container :triplestore ;
 .
 
 :csvlint a cogs:Process ;
@@ -216,19 +209,9 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "observations.csv-schema.json" ;
   rdfs:comment "CSV on the Web definition of columns, datatypes and keys." ;
   cogs:vis cogs:node ;
-  cogs:container :jenkins_pipeline ;
+  cogs:container :transform_output ;
   cogs:input_to :csvlint ;
   cogs:refers_to :codelists_csv ;
-.
-
-:gss-utils a cogs:Library ;
-  rdfs:label "gss-utils" ;
-  rdfs:comment "Python library for metadata scraping, automated dataset discovery and CSVW." ;
-  cogs:vis cogs:node ;
-  cogs:generates :observations_schema, :dataset_metadata ;
-  cogs:fetches :columns_csv, :components_csv, :codelists_csv ;
-  cogs:container :jupyter_transform ;
-#  cogs:scrapes :published_data ;
 .
 
 #:published_data a cogs:Resource ;
@@ -241,7 +224,7 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "observations.csv-metadata.trig" ;
   rdfs:comment "DCAT dataset metadata." ;
   cogs:vis cogs:node ;
-  cogs:container :jenkins_pipeline ;
+  cogs:container :transform_output ;
   cogs:input_to :dataset_metadata_pmd ;
 .
 
@@ -249,6 +232,37 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "Dataset Metadata" ;
   rdfs:comment "DCAT dataset metadata." ;
   cogs:vis cogs:node ;
-  cogs:container :PMD ;
+  cogs:container :triplestore ;
   cogs:refers_to :data_cube ;
+.
+
+:gss-utils a cogs:Library ;
+           rdfs:label "gss-utils" ;
+           rdfs:comment "Python library for metadata scraping, automated dataset discovery and CSVW." ;
+           cogs:vis cogs:node ;
+           cogs:generates :observations_schema, :dataset_metadata ;
+           cogs:fetches :columns_csv, :components_csv, :codelists_csv ;
+           cogs:container :jupyter_transform ;
+#  cogs:scrapes :published_data ;
+.
+
+:jupyter_transform a cogs:Container ;
+                   rdfs:label "Spreadsheet transform" ;
+                   cogs:vis cogs:node ;
+                   cogs:container :jenkins_pipeline ;
+                   cogs:style "fill: #99d; stroke: #999;" ;
+.
+
+:transform_output a cogs:Container ;
+  rdfs:label "Transform outputs" ;
+  cogs:vis cogs:node ;
+  cogs:container :jenkins_pipeline ;
+  cogs:style "fill: #99d; stroke: #999;" ;
+.
+
+:triplestore a cogs:Container ;
+  rdfs:label "Triple Store" ;
+  cogs:vis cogs:node ;
+  cogs:container :PMD ;
+  cogs:style "fill: #bbbbbb; stroke: #999;" ;
 .
