@@ -1,0 +1,326 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix cogsgit: <https://github.com/GSS-Cogs/> .
+@prefix cogs: <http://gss-cogs.uk/def/arch/> .
+
+<http://gss-cogs.uk/def/arch> a owl:Ontology;
+  rdfs:label "COGS Architecture" ;
+.
+
+cogs:vis a owl:AnnotationProperty ;
+  rdfs:label "visualise as" ;
+.
+
+cogs:style a owl:Annotation ;
+  rdfs:label "style" ;
+.
+
+cogs:container a owl:Annotation ;
+  rdfs:label "contained by" ;
+.
+
+cogs:node a owl:Thing .
+cogs:edge a owl:Thing .
+
+cogs:Process a owl:Class ;
+  rdfs:label "Process" ;
+.
+
+cogs:action a owl:ObjectProperty ;
+  rdfs:label "Action" ;
+.
+
+cogs:Resource a owl:Class ;
+  rdfs:label "Resource" ;
+.
+
+cogs:Container a owl:Class ;
+  rdfs:label "Container" ;
+.
+
+cogs:Library a owl:Class ;
+  rdfs:label "Library" ;
+.
+
+:PMD a cogs:Container ;
+  rdfs:label "Publish my Data" ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #dddddd; stroke: #999" ;
+.
+
+:table2qb a cogs:Container ;
+  rdfs:label "table2qb" ;
+#  cogs:container :PMD ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #bbbbbb; stroke: #999;" ;
+.
+
+#:table2qb_cube a cogs:Process ;
+#  rdfs:label "cube-pipeline" ;
+#  rdfs:comment "Generates cube RDF for the given input CSV and columns configuration." ;
+#  cogs:container :table2qb ;
+#  cogs:vis cogs:node ;
+#  cogs:generates :data_cube ;
+#.
+
+:columns_csv a cogs:Resource ;
+  rdfs:label "columns.csv" ;
+  rdfs:comment "Map from column names to RDF dimensions and values" ;
+  cogs:vis cogs:node ;
+#  cogs:input_to :table2qb_cube ;
+  cogs:container :github_ref ;
+.
+
+:observations_csv a cogs:Resource ;
+  rdfs:label "observations.csv" ;
+  rdfs:comment "Tidy Data: one row per observation, one column per dimension." ;
+  cogs:vis cogs:node ;
+  cogs:input_to :csvlint, :csv2rdf ;
+  cogs:container :transform_output ;
+.
+
+cogs:generates a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "generates" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:input_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "input" ;
+  cogs:vis cogs:edge;
+.
+
+cogs:refers_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "refers to" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:fetches a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "fetches" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:uses a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "uses" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:scrapes a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "scrapes" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:queries a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "queries" ;
+  cogs:vis cogs:edge ;
+.
+
+:main_py a cogs:Process ;
+  rdfs:label "main.py" ;
+  rdfs:comment "A Jupyter notebook using Databaker, Pandas and gss-utils to convert a spreadsheet to Tidy data.";
+  cogs:vis cogs:node ;
+  cogs:generates :observations_csv ;
+  cogs:uses :gss-utils ;
+  cogs:container :jupyter_transform ;
+    .
+    
+:full_data_cube a cogs:Resource ;
+    rdfs:label "Full Data Cube package" ;
+    rdfs:comment "Contains observations, DSD and metadata." ;
+    cogs:vis cogs:node ;
+#    cogs:style "fill: #ff4; stroke: aaa;" ;
+    cogs:container :transform_output ;
+    cogs:input_to :data_cube, :dataset_metadata_pmd ;
+    .
+
+:codes_used a cogs:Resource ;
+    rdfs:label "Codes used" ;
+    rdfs:comment "PMD specific index of all codes used by dimensions in this cube." ;
+    cogs:vis cogs:node ;
+    cogs:container :jenkins_pipeline ;
+    cogs:input_to :data_cube ;
+    .
+
+:codes_used_process a cogs:Process ;
+    rdfs:label "Query codes used" ;
+    cogs:vis cogs:node ;
+    cogs:container :jenkins_pipeline ;
+    cogs:generates :codes_used ;
+    cogs:queries :data_cube ;
+    .
+    
+
+#:cube_package_data a cogs:Resource ;
+#  rdfs:label "Data Cube" ;
+#  rdfs:comment "Observations and data structure definition." ;
+#    cogs:vis cogs:node ;
+#    cogs:container :full_data_cube ;
+#    
+#    .
+
+:data_cube a cogs:Resource ;
+  rdfs:label "Data Cube" ;
+  rdfs:comment "Observations and data structure definition." ;
+  cogs:vis cogs:node ;
+  cogs:container :triplestore ;
+  cogs:refers_to :components ;
+  cogs:refers_to :codelists ;
+.
+
+#:jenkins_upload a cogs:Process ;
+#  rdfs:label "Upload to PMD" ;
+#  cogs:vis cogs:node ;
+#  cogs:container :jenkins_pipeline ;
+#.
+
+:jenkins_pipeline a cogs:Container ;
+  rdfs:label "Jenkins Pipeline" ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #aaaaee; stroke: #999;" ;
+.
+
+:github_ref a cogs:Container ;
+  rdfs:label "Reference data" ;
+  cogs:vis cogs:node ;
+  cogs:style "fill: #444; stroke: aaa;" ;
+.
+
+:components_csv a cogs:Resource ;
+  rdfs:label "components.csv" ;
+  cogs:vis cogs:node ;
+  cogs:container :github_ref ;
+  cogs:input_to :table2qb_comp ;
+.
+
+:table2qb_comp a cogs:Process ;
+  rdfs:label "components-pipeline" ;
+  rdfs:comment "Generates RDF for the given components CSV file." ;
+  cogs:container :table2qb ;
+  cogs:vis cogs:node ;
+  cogs:generates :components ;
+.
+
+:components a cogs:Resource ;
+  rdfs:label "Components definitions" ;
+  rdfs:comment "Definitions of dimensions, attributes and measures." ;
+  cogs:vis cogs:node ;
+  cogs:container :triplestore ;
+.
+
+:codelists_csv a cogs:Resource ;
+  rdfs:label "Codelists" ;
+  rdfs:comment "A series of CSV files declaring hierarchical codelists that map codes to labels." ;
+  cogs:vis cogs:node ;
+  cogs:container :github_ref ;
+  cogs:input_to :table2qb_codelist ;
+.
+
+:table2qb_codelist a cogs:Process ;
+  rdfs:label "codelist-pipeline" ;
+  rdfs:comment "Generates RDF for the given codelist CSV file" ;
+  cogs:vis cogs:node ;
+  cogs:container :table2qb ;
+  cogs:generates :codelists ;
+.
+
+:codelists a cogs:Resource ;
+  rdfs:label "Codelists" ;
+  rdfs:comment "A series of SKOS Concept Schemes." ;
+  cogs:vis cogs:node ;
+  cogs:container :triplestore ;
+.
+
+:csvlint a cogs:Process ;
+  rdfs:label "csvlint" ;
+  rdfs:comment "Validates CSV against a schema constraints including primary and foreign keys." ;
+  cogs:vis cogs:node ;
+  cogs:container :jenkins_pipeline ;
+  cogs:fetches :codelists_csv ;
+.
+
+:csv2rdf a cogs:Process ;
+    rdfs:label "csv2rdf" ;
+    rdfs:comment "Runs W3C CSVW standard transform from CSV to RDF." ;
+    cogs:vis cogs:node ;
+    cogs:container :jenkins_pipeline ;
+    cogs:generates :full_data_cube ;
+    .
+    
+
+:observations_schema a cogs:Resource ;
+  rdfs:label "observations.csv-schema.json" ;
+  rdfs:comment "CSV on the Web definition of columns, datatypes and keys." ;
+  cogs:vis cogs:node ;
+  cogs:container :transform_output ;
+  cogs:input_to :csvlint ;
+  cogs:refers_to :codelists_csv ;
+.
+
+:observations_csvw a cogs:Resource ;
+  rdfs:label "observations.csv-metadata.json" ;
+  rdfs:comment "Full CSV on the Web definition including transformation." ;
+  cogs:vis cogs:node ;
+  cogs:container :transform_output ;
+  cogs:input_to :csv2rdf ;
+  cogs:refers_to :codelists_csv ;
+.
+
+#:published_data a cogs:Resource ;
+#  rdfs:label "Published Data" ;
+#  rdfs:comment "Statistical data published online as spreadsheets." ;
+#  cogs:vis cogs:node ;
+#.
+
+:dataset_metadata a cogs:Resource ;
+  rdfs:label "observations.csv-metadata.trig" ;
+  rdfs:comment "DCAT dataset metadata." ;
+  cogs:vis cogs:node ;
+  cogs:container :transform_output ;
+  cogs:input_to :dataset_metadata_pmd ;
+.
+
+:dataset_metadata_pmd a cogs:Resource ;
+  rdfs:label "Dataset Metadata" ;
+  rdfs:comment "DCAT dataset metadata." ;
+  cogs:vis cogs:node ;
+  cogs:container :triplestore ;
+  cogs:refers_to :data_cube ;
+.
+
+:gss-utils a cogs:Library ;
+           rdfs:label "gss-utils" ;
+           rdfs:comment "Python library for metadata scraping, automated dataset discovery and CSVW." ;
+           cogs:vis cogs:node ;
+           cogs:generates :observations_schema, :dataset_metadata, :observations_csvw ;
+           cogs:fetches :columns_csv, :components_csv, :codelists_csv ;
+           cogs:container :jupyter_transform ;
+#  cogs:scrapes :published_data ;
+.
+
+:jupyter_transform a cogs:Container ;
+                   rdfs:label "Spreadsheet transform" ;
+                   cogs:vis cogs:node ;
+                   cogs:container :jenkins_pipeline ;
+                   cogs:style "fill: #99d; stroke: #999;" ;
+.
+
+:transform_output a cogs:Container ;
+  rdfs:label "Transform outputs" ;
+  cogs:vis cogs:node ;
+  cogs:container :jenkins_pipeline ;
+  cogs:style "fill: #99d; stroke: #999;" ;
+.
+
+:triplestore a cogs:Container ;
+  rdfs:label "Triple Store" ;
+  cogs:vis cogs:node ;
+  cogs:container :PMD ;
+  cogs:style "fill: #bbbbbb; stroke: #999;" ;
+.
