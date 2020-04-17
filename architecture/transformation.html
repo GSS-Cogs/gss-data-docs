@@ -10,8 +10,26 @@
     <script src="https://cdn.jsdelivr.net/npm/rdflib@1.0.4/dist/rdflib.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/dagre-d3@0.6.4/dist/dagre-d3.min.js"></script>
+    <style>
+      body {
+          padding-top: 4.5rem;
+      }
+      .svg-container {
+          display: inline-block;
+          position: relative;
+          width: 100%;
+          padding-bottom: 1rem;
+          vertical-align: top;
+          overflow: hidden;
+      }
+      .svg-content {
+          display: inline-block;
+          top: 0;
+          left: 0;
+      }
+    </style>
   </head>
-  <body style="padding-top: 4.5rem;">
+  <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #aaf;">
       <a class="navbar-brand" href="https://github.com/GSS-Cogs/gss-data-docs/wiki">
         <img src="../cogs.svg" alt="COGS" width="72"/>
@@ -36,8 +54,8 @@
         </ul>
       </div>
     </nav>
-    <div class="container-fluid">
-    <svg width="1600" height="1024"><style>
+    <div class="container-fluid svg-container">
+    <svg><style>
 .node rect {
   fill: transparent;
 }
@@ -147,9 +165,10 @@
           const svg = d3.select("svg"),
               svgGroup = svg.append("g");
           render(d3.select("svg g"), g);
-          svgGroup.attr("transform", "translate(20, 20)");
-          svg.attr("height", g.graph().height + 40);
-          svg.attr("width", g.graph().width + 40);
+          svg
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "-20 -20 " + g.graph().width + 20 + " " + g.graph().height + 20)
+            .classed("svg-content", true);
         }
       });
     </script>
