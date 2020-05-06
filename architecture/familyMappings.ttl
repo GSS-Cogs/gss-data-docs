@@ -56,49 +56,49 @@ cogs:outputs_columns a owl:ObjectProperty ;
 cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
-  cogs:splits_into cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
+  cogs:requires cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
 .
 ####
 cogsgit:sheet1 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
-  cogs:transforms_into cogsgit:dataset1 ;
+  cogs:requires cogsgit:dataset1 ;
 .
 cogsgit:sheet2 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "P1, P2, R1, R2" ;
-  cogs:transforms_into cogsgit:dataset2 ;
+  cogs:requires cogsgit:dataset2 ;
 .
 cogsgit:sheet3 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "MD1, MD2, MD3" ;
-  cogs:transforms_into cogsgit:dataset3 ;
+  cogs:requires cogsgit:dataset3 ;
 .
 cogsgit:sheet4 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "TA1, TA2" ;
-  cogs:transforms_into cogsgit:dataset4 ;
+  cogs:requires cogsgit:dataset4 ;
 .
 ####
 cogsgit:dataset1 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG Homelessness - Households initially assessed as threatened with homelessness (owed prevention duty) or homeless (owed relief duty)" ;
-  cogs:outputs_columns cogsgit:columns1 ;
+  cogs:requires cogsgit:columns1 ;
 .
 cogsgit:dataset2 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG Homelessness - Households whose prevention or relief duty ended by reason and accommodation type" ;
-  cogs:outputs_columns cogsgit:columns2 ;
+  cogs:requires cogsgit:columns2 ;
 .
 cogsgit:dataset3 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG - Households assessed, following relief duty end, as unintentionally homeless and priority need (owed main duty)" ;
-  cogs:outputs_columns cogsgit:columns3 ;
+  cogs:requires cogsgit:columns3 ;
 .
 cogsgit:dataset4 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG Homelessness - Households in temporary accommodation by household composition and accommodation type" ;
-  cogs:outputs_columns cogsgit:columns4 ;
+  cogs:requires cogsgit:columns4 ;
 .
 ####
 cogsgit:columns1 a cogs:Columns ;
