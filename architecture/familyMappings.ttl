@@ -13,7 +13,7 @@ cogs:SoftwarePackage a owl:Class ;
 .
 cogs:LandingPage a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Original Data" ;
+  rdfs:label "Landing Page Data" ;
 .
 cogs:Datasets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
@@ -21,11 +21,11 @@ cogs:Datasets a owl:Class ;
 .
 cogs:Sheets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Sheets";
+  rdfs:label "Sheets to Transform and join";
 .
 cogs:Columns a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Columns" ;
+  rdfs:label "Table Columns" ;
 .
 
 ###########################################################################################################
