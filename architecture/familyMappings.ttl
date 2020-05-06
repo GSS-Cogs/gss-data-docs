@@ -12,7 +12,7 @@ cogs:SoftwarePackage a owl:Class ;
   rdfs:label "Software package" ;
 .
 cogs:LandingPage a owl:Class ;
-  rdfs:subClassOf cogs:SoftwarePackage ;
+rdfs:subClassOf cogs:SoftwarePackage ;
   rdfs:label "Original Data" ;
 .
 cogs:Datasets a owl:Class ;
@@ -28,93 +28,75 @@ cogs:Columns a owl:Class ;
   rdfs:label "Columns" ;
 .
 
-cogs:generates a owl:ObjectProperty ;
+cogs:splits_into a owl:ObjectProperty ;
   rdfs:subPropertyOf cogs:action ;
-  rdfs:label "generates" ;
+  rdfs:label "splits into" ;
   cogs:vis cogs:edge ;
-.
 
-cogs:input_to a owl:ObjectProperty ;
-  rdfs:subPropertyOf cogs:action ;
-  rdfs:label "input" ;
-  cogs:vis cogs:edge;
-.
-
-cogs:refers_to a owl:ObjectProperty ;
-  rdfs:subPropertyOf cogs:action ;
-  rdfs:label "refers to" ;
-  cogs:vis cogs:edge ;
-.
-
-cogs:vis a owl:AnnotationProperty ;
-  rdfs:label "visualise as" ;
-.
-cogs:node a owl:Thing .
-cogs:edge a owl:Thing .
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
-  cogs:input_to cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
+  cogs:splits_into cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
 .
-####
+
 cogsgit:sheet1 a cogs:Sheets ;
-  rdfs:label "" ;
+  rdfs:label "Sheets" ;
   rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
   cogs:requires cogsgit:dataset1 ;
 .
 cogsgit:sheet2 a cogs:Sheets ;
-  rdfs:label "" ;
+  rdfs:label "Sheets" ;
   rdfs:comment "P1, P2, R1, R2" ;
   cogs:requires cogsgit:dataset2 ;
 .
 cogsgit:sheet3 a cogs:Sheets ;
-  rdfs:label "" ;
+  rdfs:label "Sheets" ;
   rdfs:comment "MD1, MD2, MD3" ;
   cogs:requires cogsgit:dataset3 ;
 .
 cogsgit:sheet4 a cogs:Sheets ;
-  rdfs:label "" ;
+  rdfs:label "Sheets" ;
   rdfs:comment "TA1, TA2" ;
   cogs:requires cogsgit:dataset4 ;
 .
-####
+
 cogsgit:dataset1 a cogs:Datasets ;
-  rdfs:label "" ;
+  rdfs:label "Dataset" ;
   rdfs:comment "MHCLG Homelessness - Households initially assessed as threatened with homelessness (owed prevention duty) or homeless (owed relief duty)" ;
   cogs:requires cogsgit:columns1 ;
 .
 cogsgit:dataset2 a cogs:Datasets ;
-  rdfs:label "" ;
+  rdfs:label "Dataset" ;
   rdfs:comment "MHCLG Homelessness - Households whose prevention or relief duty ended by reason and accommodation type" ;
   cogs:requires cogsgit:columns2 ;
 .
 cogsgit:dataset3 a cogs:Datasets ;
-  rdfs:label "" ;
+  rdfs:label "Dataset" ;
   rdfs:comment "MHCLG - Households assessed, following relief duty end, as unintentionally homeless and priority need (owed main duty)" ;
   cogs:requires cogsgit:columns3 ;
 .
 cogsgit:dataset4 a cogs:Datasets ;
-  rdfs:label "" ;
+  rdfs:label "Dataset" ;
   rdfs:comment "MHCLG Homelessness - Households in temporary accommodation by household composition and accommodation type" ;
   cogs:requires cogsgit:columns4 ;
 .
-####
-cogsgit:columns1 a cogs:Columns ;
-  rdfs:label "" ;
+
+cogsgit:columns1 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
   rdfs:comment "Period, Accommodation Type, Household Composition, Initial Assessment, Reason for loss or threat of loss of home, Support needs of household, Duty Owed, Referral Public Body, Eligibility for Homelessness Status" ;
 .
-cogsgit:columns2 a cogs:Columns ;
-  rdfs:label "" ;
-  rdfs:comment "Period, ONS Geography Code, Accommodation Type, Reason duty Ended, Duty Type" ;
+cogsgit:columns2 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
+  rdfs:comment "ONS Geography Code, Period, Accommodation Type, Reason duty Ended, Duty Type" ;
 .
-cogsgit:columns3 a cogs:Columns ;
-  rdfs:label "" ;
-  rdfs:comment "Period, ONS Geography Code, Decision on Duty Owed, Reason duty Ended, Priority Need" ;
+cogsgit:columns3 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
+  rdfs:comment "ONS Geography Code, Period, Decision on Duty Owed, Reason duty Ended, Priority Need" ;
 .
-cogsgit:columns4 a cogs:Columns ;
-  rdfs:label "" ;
-  rdfs:comment "Period, ONS Geography Code, Accommodation Type, Household Composition" ;
+cogsgit:columns4 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
+  rdfs:comment "ONS Geography Code, Period, Accommodation Type, Household Composition" ;
 .
 ###################################################################################################

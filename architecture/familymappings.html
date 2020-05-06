@@ -81,11 +81,23 @@
           console.log("Error fetching data.");
         } else {
           console.log("Ok, parsed.");
-          const actionProps = new Set(store.each(undefined, RDFS("subPropertyOf"), COGS("action")));
-          const processTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("Process")));
-          const nodes = new Set(store.each(undefined, COGS("vis"), COGS("node")));
-          const properties = new Set(store.each(undefined, COGS("vis"), COGS("edge")));
-          const g = new dagreD3.graphlib.Graph({compound: true}).setGraph({rankDir: 'TB'});
+          const packageTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("SoftwarePackage")));
+          const packages = new Set();
+          packageTypes.forEach(t => {
+            store.each(undefined, RDF("type"), t).forEach(p => packages.add(p));
+          });
+          console.log(packages);
+          const requires = store.statementsMatching(undefined, COGS('requires'), undefined);
+          console.log(requires);
+          const nodes = new Set();
+          requires.forEach(s => {
+            nodes.add(s.subject);
+            nodes.add(s.object);
+          });
+          packages.forEach(p => {
+            nodes.add(p);
+          });
+          const g = new dagreD3.graphlib.Graph().setGraph({rankDir: 'LR'});
           nodes.forEach(n => {
             const l = store.any(n, RDFS('label'));
             const c = store.any(n, RDFS('comment'));
