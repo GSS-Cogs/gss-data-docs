@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="../favicon.png">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>COGS Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/rdflib@1.0.4/dist/rdflib.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dagre-d3@0.6.4/dist/dagre-d3.min.js"></script>
+    <style>
+      body {
+          padding-top: 4.5rem;
+      }
+      .svg-container {
+          display: inline-block;
+          position: relative;
+          width: 100%;
+          padding-bottom: 1rem;
+          vertical-align: top;
+          overflow: hidden;
+      }
+      .svg-content {
+          display: inline-block;
+          top: 0;
+          left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #aaf;">
+      <a class="navbar-brand" href="https://github.com/GSS-Cogs/gss-data-docs/wiki">
+        <img src="../cogs.svg" alt="COGS" width="72"/>
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./">Architecture</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="components.html">Components</a></a>
+          </li>
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Transformation
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="transformation.html?transform_v3.ttl">PMDv3 / table2qb</a>
+              <a class="dropdown-item" href="transformation.html?transform_v4.ttl">PMDv4 / CSVW</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid svg-container">
+    <svg><style>
+.node rect {
+  fill: transparent;
+}
+.card {
+  background: transparent;
+}
+.edgePath path {
+  stroke: #333;
+  fill: #333;
+  stroke-width: 1.5px;
+}
+.card-node {
+    width: 16rem;
+}
+.card-body {
+  background: white;
+}
+.card-header.Process {
+    background-color: dodgerblue;
+}
+.card-header.Library {
+  background-color: cadetblue;
+}
+.card-header.Resource {
+    background-color: darkgoldenrod;
+}
+    </style></svg>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+      const store = $rdf.graph();
+      const fetcher = new $rdf.Fetcher(store, 5000);
+      const process = (window.location.search != '' ? window.location.search.substring(1) : 'transform_v3.ttl')
+      const info_url = new URL(process, window.location);
+      const COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
+      const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+      const RDFS = $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
+
+      fetcher.nowOrWhenFetched(info_url.href, function(ok, body, xhr) {
+        if (!ok) {
+          console.log("Error fetching data.");
+        } else {
+          console.log("Ok, parsed.");
+          const actionProps = new Set(store.each(undefined, RDFS("subPropertyOf"), COGS("action")));
+          const processTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("Process")));
+          const nodes = new Set(store.each(undefined, COGS("vis"), COGS("node")));
+          const properties = new Set(store.each(undefined, COGS("vis"), COGS("edge")));
+          const g = new dagreD3.graphlib.Graph({compound: true}).setGraph({rankDir: 'TB'});
+          nodes.forEach(n => {
+            const l = store.any(n, RDFS('label'));
+            const c = store.any(n, RDFS('comment'));
+            const t = store.any(n, RDF('type'))
+            const tl = store.any(t, RDFS('label'));
+            if (t.value === COGS('Container').value) {
+              const style = store.any(n, COGS("style"));
+              g.setNode(n.value, {
+                label: l.value,
+                clusterLabelPos: 'top',
+                style: style ? style : 'fill: #bbffbb; stroke: #999;'
+              });
+            } else {
+              let html = '<div class="card card-node">';
+              if (t !== undefined && t.value.startsWith(COGS().value)) {
+                html += '<div class="card-header ' + t.value.substring(COGS().value.length) + '">';
+              } else {
+                html += '<div class="card-header">';
+              }
+              if (tl !== undefined) {
+                html += tl;
+              } else {
+                html += 'Process';
+              }
+              html += '</div><div class="card-body"><h4 class="card-title text-wrap">';
+              if (l !== undefined) {
+                html += l.value;
+              } else {
+                html += 'Unknown';
+              }
+              html += '</h3><p class="card-text text-wrap">';
+              if (c !== undefined) {
+                html += c.value;
+              }
+              html += '</p>';
+              html += '</div></div>';
+              g.setNode(n.value, {
+                labelType: 'html',
+                label: html,
+                padding: 0
+              });
+            }
+          });
+          actionProps.forEach(prop => {
+            const propLabel = store.any(prop, RDFS('label'));
+            store.statementsMatching(undefined, prop, undefined).forEach(stmt => {
+              g.setEdge(stmt.subject.value, stmt.object.value, {
+                label: propLabel.value,
+                curve: d3.curveBasis
+              });
+            });
+          });
+          store.statementsMatching(undefined, COGS('container'), undefined).forEach(stmt => {
+            g.setParent(stmt.subject.value, stmt.object.value);
+          });
+          const render = new dagreD3.render();
+          const svg = d3.select("svg"),
+              svgGroup = svg.append("g");
+          render(d3.select("svg g"), g);
+          svg
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "-20 -20 " + g.graph().width + 20 + " " + g.graph().height + 20)
+            .classed("svg-content", true);
+        }
+      });
+    </script>
+  </body>
+</html>
