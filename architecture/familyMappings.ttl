@@ -11,82 +11,86 @@
 cogs:SoftwarePackage a owl:Class ;
   rdfs:label "Software package" ;
 .
-
-cogs:PythonPackage a owl:Class ;
+cogs:LandingPage a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Python package" ;
+  rdfs:label "Original Data" ;
 .
-
-cogs:JenkinsPipeline a owl:Class ;
-  rdfs:label "Jenkins Pipeline" ;
-.
-
-cogs:DockerImage a owl:Class ;
-  rdfs:label "Docker Image" ;
-.
-
-cogs:DockerContainer a owl:Class ;
-  rdfs:label "Docker Container" ;
-.
-
-cogs:ClojureLibrary a owl:Class ;
+cogs:Datasets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Clojure Library";
+  rdfs:label "Output Datasets" ;
 .
-
-cogs:JenkinsPlugin a owl:Class ;
+cogs:Sheets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Jenkins Plugin" ;
+  rdfs:label "Sheets";
+.
+cogs:Columns a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Columns" ;
 .
 
+cogs:splits_into a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "splits into" ;
+  cogs:vis cogs:edge ;
+.
+cogs:transforms_into a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "transforms into" ;
+  cogs:vis cogs:edge ;
+.
+cogs:outputs_columns a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "outputs columns" ;
+  cogs:vis cogs:edge ;
+.
 ###########################################################################################################
 
-cogsgit:top-level a cogs:DockerImage ;
+cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
-  rdfs:comment "Assessment for Homelessness or threatened with Homelessness";
-  cogs:requires cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
+  rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
+  cogs:splits_into cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
 .
 
-cogsgit:sheet1 a cogs:ClojureLibrary ;
+cogsgit:sheet1 a cogs:Sheets ;
   rdfs:label "Sheets" ;
   rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
-  cogs:requires cogsgit:dataset1 ;
+  cogs:transforms_into cogsgit:dataset1 ;
 .
-cogsgit:sheet2 a cogs:ClojureLibrary ;
+cogsgit:sheet2 a cogs:Sheets ;
   rdfs:label "Sheets" ;
   rdfs:comment "P1, P2, R1, R2" ;
-  cogs:requires cogsgit:dataset2 ;
+  cogs:transforms_into cogsgit:dataset2 ;
 .
-cogsgit:sheet3 a cogs:ClojureLibrary ;
+cogsgit:sheet3 a cogs:Sheets ;
   rdfs:label "Sheets" ;
   rdfs:comment "MD1, MD2, MD3" ;
-  cogs:requires cogsgit:dataset3 ;
+  cogs:transforms_into cogsgit:dataset3 ;
 .
-cogsgit:sheet4 a cogs:ClojureLibrary ;
+cogsgit:sheet4 a cogs:Sheets ;
   rdfs:label "Sheets" ;
   rdfs:comment "TA1, TA2" ;
-  cogs:requires cogsgit:dataset4 ;
+  cogs:transforms_into cogsgit:dataset4 ;
 .
 
-cogsgit:dataset1 a cogs:RubyLibrary ;
+cogsgit:dataset1 a cogs:Datasets ;
   rdfs:label "Dataset" ;
   rdfs:comment "MHCLG Homelessness - Households initially assessed as threatened with homelessness (owed prevention duty) or homeless (owed relief duty)" ;
-  cogs:requires cogsgit:columns1 ;
+  cogs:outputs_columns cogsgit:columns1 ;
 .
-cogsgit:dataset2 a cogs:RubyLibrary ;
+cogsgit:dataset2 a cogs:Datasets ;
   rdfs:label "Dataset" ;
   rdfs:comment "MHCLG Homelessness - Households whose prevention or relief duty ended by reason and accommodation type" ;
-  cogs:requires cogsgit:columns2 ;
+  cogs:outputs_columns cogsgit:columns2 ;
 .
-cogsgit:dataset3 a cogs:RubyLibrary ;
+cogsgit:dataset3 a cogs:Datasets ;
   rdfs:label "Dataset" ;
   rdfs:comment "MHCLG - Households assessed, following relief duty end, as unintentionally homeless and priority need (owed main duty)" ;
-  cogs:requires cogsgit:columns3 ;
+  cogs:outputs_columns cogsgit:columns3 ;
 .
-cogsgit:dataset4 a cogs:RubyLibrary ;
+cogsgit:dataset4 a cogs:Datasets ;
   rdfs:label "Dataset" ;
   rdfs:comment "MHCLG Homelessness - Households in temporary accommodation by household composition and accommodation type" ;
-  cogs:requires cogsgit:columns4 ;
+  cogs:outputs_columns cogsgit:columns4 ;
 .
 
 cogsgit:columns1 a cogs:JenkinsPlugin ;
