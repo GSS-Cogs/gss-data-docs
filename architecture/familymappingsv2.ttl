@@ -42,7 +42,7 @@ cogsgit:top-level a cogs:LandingPage ;
 cogsgit:sheet1 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
-  cogs:requires cogsgit:dataset1 ;
+  cogs:splits cogsgit:dataset1 ;
 .
 cogsgit:sheet2 a cogs:Sheets ;
   rdfs:label "" ;
