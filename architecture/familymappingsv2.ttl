@@ -8,6 +8,77 @@
   rdfs:label "COGS Family Transform Mappings" ;
 .
 
+cogs:vis a owl:AnnotationProperty ;
+  rdfs:label "visualise as" ;
+.
+
+cogs:style a owl:Annotation ;
+  rdfs:label "style" ;
+.
+
+cogs:container a owl:Annotation ;
+  rdfs:label "contained by" ;
+.
+
+cogs:node a owl:Thing .
+cogs:edge a owl:Thing .
+
+cogs:Process a owl:Class ;
+  rdfs:label "Process" ;
+.
+
+cogs:action a owl:ObjectProperty ;
+  rdfs:label "Action" ;
+.
+
+cogs:Resource a owl:Class ;
+  rdfs:label "Resource" ;
+.
+
+cogs:Container a owl:Class ;
+  rdfs:label "Container" ;
+.
+
+cogs:Library a owl:Class ;
+  rdfs:label "Library" ;
+.
+
+cogs:generates a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "generates" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:input_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "input" ;
+  cogs:vis cogs:edge;
+.
+
+cogs:refers_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "refers to" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:fetches a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "fetches" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:uses a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "uses" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:scrapes a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "scrapes" ;
+  cogs:vis cogs:edge ;
+.
+
 :main_py a cogs:Process ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
@@ -18,6 +89,5 @@
 :jupyter_transform a cogs:Container ;
                    rdfs:label "Spreadsheet transform" ;
                    cogs:vis cogs:node ;
-                   cogs:container :jenkins_pipeline ;
                    cogs:style "fill: #99d; stroke: #999;" ;
 .
