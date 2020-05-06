@@ -42,22 +42,22 @@ cogsgit:top-level a cogs:LandingPage ;
 cogsgit:sheet1 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
-  cogs:requires cogsgit:dataset1 ;
+  cogs:transforms cogsgit:dataset1 ;
 .
 cogsgit:sheet2 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "P1, P2, R1, R2" ;
-  cogs:requires cogsgit:dataset2 ;
+  cogs:transforms cogsgit:dataset2 ;
 .
 cogsgit:sheet3 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "MD1, MD2, MD3" ;
-  cogs:requires cogsgit:dataset3 ;
+  cogs:transforms cogsgit:dataset3 ;
 .
 cogsgit:sheet4 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "TA1, TA2" ;
-  cogs:requires cogsgit:dataset4 ;
+  cogs:transforms cogsgit:dataset4 ;
 .
 
 cogsgit:dataset1 a cogs:Datasets ;
