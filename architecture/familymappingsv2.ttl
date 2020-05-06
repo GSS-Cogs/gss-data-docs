@@ -120,24 +120,18 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
   cogs:vis cogs:node ;
-  cogs:generates :observations_csv ;
+  cogs:generates :sheets1 ;
   cogs:container :jupyter_transform ;
 .
 
-:data_cube a cogs:Resource ;
-  rdfs:label "Data Cube" ;
-  rdfs:comment "Observations and data structure definition." ;
+:sheets1 a cogs:Resource ;
+  rdfs:label "" ;
+  rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
   cogs:vis cogs:node ;
   cogs:container :triplestore ;
   cogs:refers_to :components ;
   cogs:refers_to :codelists ;
 .
-
-#:jenkins_upload a cogs:Process ;
-#  rdfs:label "Upload to PMD" ;
-#  cogs:vis cogs:node ;
-#  cogs:container :jenkins_pipeline ;
-#.
 
 :jenkins_pipeline a cogs:Container ;
   rdfs:label "Jenkins Pipeline" ;
@@ -212,12 +206,6 @@ cogs:scrapes a owl:ObjectProperty ;
   cogs:input_to :csvlint ;
   cogs:refers_to :codelists_csv ;
 .
-
-#:published_data a cogs:Resource ;
-#  rdfs:label "Published Data" ;
-#  rdfs:comment "Statistical data published online as spreadsheets." ;
-#  cogs:vis cogs:node ;
-#.
 
 :dataset_metadata a cogs:Resource ;
   rdfs:label "observations.csv-metadata.trig" ;
