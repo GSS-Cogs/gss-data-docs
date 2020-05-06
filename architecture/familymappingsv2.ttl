@@ -13,11 +13,11 @@ cogs:SoftwarePackage a owl:Class ;
 .
 cogs:LandingPage a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Landing Page Data" ;
+  rdfs:label "Landing Page" ;
 .
 cogs:Datasets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Output Dataset name" ;
+  rdfs:label "Output Dataset" ;
 .
 cogs:Sheets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
@@ -25,11 +25,11 @@ cogs:Sheets a owl:Class ;
 .
 cogs:Columns a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Table Columns" ;
+  rdfs:label "Table" ;
 .
 cogs:PMD a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Publish my Data" ;
+  rdfs:label "PMD" ;
 .
 ###########################################################################################################
 
@@ -104,6 +104,6 @@ cogsgit:columns4 a cogs:Columns ;
 
 cogsgit:pmd1 a cogs:PMD ;
   rdfs:label "" ;
-  rdfs:comment "Upload to PMD" ;
+  rdfs:comment "Publish my Data" ;
 .
 ###################################################################################################
