@@ -36,56 +36,26 @@ cogs:PMD a owl:Class ;
 cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "This is another example" ;
   rdfs:comment "https://www.gov.uk/";
-  cogs:splits cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3 ;
+  cogs:splits cogsgit:sheet1 ;
 .
 
 cogsgit:sheet1 a cogs:Sheets ;
   rdfs:label "" ;
-  rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
+  rdfs:comment "Table 1, Table 2a, Table 2b, Table 2c" ;
   cogs:transforms cogsgit:dataset1 ;
-.
-cogsgit:sheet2 a cogs:Sheets ;
-  rdfs:label "" ;
-  rdfs:comment "P1, P2, R1, R2" ;
-  cogs:transforms cogsgit:dataset2 ;
-.
-cogsgit:sheet3 a cogs:Sheets ;
-  rdfs:label "" ;
-  rdfs:comment "MD1, MD2, MD3" ;
-  cogs:transforms cogsgit:dataset3 ;
 .
 
 
 cogsgit:dataset1 a cogs:Datasets ;
   rdfs:label "" ;
-  rdfs:comment "MHCLG Homelessness " ;
+  rdfs:comment "MHCLG Rough Sleeping in England " ;
   cogs:outputs cogsgit:columns1 ;
-.
-cogsgit:dataset2 a cogs:Datasets ;
-  rdfs:label "" ;
-  rdfs:comment "MHCLG Homelessness" ;
-  cogs:outputs cogsgit:columns2 ;
-.
-cogsgit:dataset3 a cogs:Datasets ;
-  rdfs:label "" ;
-  rdfs:comment "MHCLG " ;
-  cogs:outputs cogsgit:columns3 ;
 .
 
 
 cogsgit:columns1 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "" ;
-  cogs:uploads cogsgit:pmd1 ;
-.
-cogsgit:columns2 a cogs:Columns ;
-  rdfs:label "" ;
-  rdfs:comment "" ;
-  cogs:uploads cogsgit:pmd1 ;
-.
-cogsgit:columns3 a cogs:Columns ;
-  rdfs:label "" ;
-  rdfs:comment "" ;
+  rdfs:comment "Period, ONS Geography Code, Sex, Nationality, Age, Percentage of Total, Yearly Percentage Change, Projected Number of Households, Rough Sleeping Rate" ;
   cogs:uploads cogsgit:pmd1 ;
 .
 
