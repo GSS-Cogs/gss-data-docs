@@ -83,11 +83,4 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
   cogs:vis cogs:node ;
-  cogs:container :jupyter_transform ;
-.
-
-:jupyter_transform a cogs:Container ;
-                   rdfs:label "Spreadsheet transform" ;
-                   cogs:vis cogs:node ;
-                   cogs:style "fill: #99d; stroke: #999;" ;
 .
