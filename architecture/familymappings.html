@@ -27,8 +27,14 @@
           <li class="nav-item">
             <a class="nav-link" href="transformation.html">Transformation</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="familymappings.html">Family Mappings</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Family Mappings
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="familyhomelessness.html?">Homelessness</a>
+              <a class="dropdown-item" href="familyhomelessness.html">Spare</a>
+            </div>
           </li>
         </ul>
       </div>
@@ -72,12 +78,14 @@
     <script>
       const store = $rdf.graph();
       const fetcher = new $rdf.Fetcher(store, 5000);
-      const components_url = new URL("familymappings.ttl", window.location);
+      //const components_url = new URL("familymappings.ttl", window.location);
+      const process = (window.location.search != '' ? window.location.search.substring(1) : 'familymappings.ttl')
+      const info_url = new URL(process, window.location);
       const COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
       const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
       const RDFS = $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
 
-      fetcher.nowOrWhenFetched(components_url.href, function(ok, body, xhr) {
+      fetcher.nowOrWhenFetched(info_url.href, function(ok, body, xhr) {
         if (!ok) {
           console.log("Error fetching data.");
         } else {

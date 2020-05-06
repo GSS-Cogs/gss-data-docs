@@ -34,9 +34,9 @@ cogs:PMD a owl:Class ;
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
-  rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
-  rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
-  cogs:splits cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
+  rdfs:label "This is another example" ;
+  rdfs:comment "https://www.gov.uk/";
+  cogs:splits cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3 ;
 .
 
 cogsgit:sheet1 a cogs:Sheets ;
@@ -54,11 +54,7 @@ cogsgit:sheet3 a cogs:Sheets ;
   rdfs:comment "MD1, MD2, MD3" ;
   cogs:transforms cogsgit:dataset3 ;
 .
-cogsgit:sheet4 a cogs:Sheets ;
-  rdfs:label "" ;
-  rdfs:comment "TA1, TA2" ;
-  cogs:transforms cogsgit:dataset4 ;
-.
+
 
 cogsgit:dataset1 a cogs:Datasets ;
   rdfs:label "" ;
@@ -75,11 +71,7 @@ cogsgit:dataset3 a cogs:Datasets ;
   rdfs:comment "MHCLG - Households assessed, following relief duty end, as unintentionally homeless and priority need (owed main duty)" ;
   cogs:outputs cogsgit:columns3 ;
 .
-cogsgit:dataset4 a cogs:Datasets ;
-  rdfs:label "" ;
-  rdfs:comment "MHCLG Homelessness - Households in temporary accommodation by household composition and accommodation type" ;
-  cogs:outputs cogsgit:columns4 ;
-.
+
 
 cogsgit:columns1 a cogs:Columns ;
   rdfs:label "" ;
@@ -96,11 +88,7 @@ cogsgit:columns3 a cogs:Columns ;
   rdfs:comment "Period, ONS Geography Code, Decision on Duty Owed, Reason duty Ended, Priority Need, Measure Type, Unit, Marker, Value" ;
   cogs:uploads cogsgit:pmd1 ;
 .
-cogsgit:columns4 a cogs:Columns ;
-  rdfs:label "" ;
-  rdfs:comment "Period, ONS Geography Code, Accommodation Type, Household Composition, Measure Type, Unit, Marker, Value" ;
-  cogs:uploads cogsgit:pmd1 ;
-.
+
 
 cogsgit:pmd1 a cogs:PMD ;
   rdfs:label "" ;
