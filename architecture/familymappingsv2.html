@@ -19,7 +19,7 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./">Architecturesssss</a>
+            <a class="nav-link" href="./">Architecture</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="components.html">Components</a>
@@ -94,6 +94,10 @@
           console.log(splits);
           const nodes = new Set();
           requires.forEach(s => {
+            nodes.add(s.subject);
+            nodes.add(s.object);
+          });
+          splits.forEach(s => {
             nodes.add(s.subject);
             nodes.add(s.object);
           });
