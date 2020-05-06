@@ -103,7 +103,7 @@ cogsgit:columns4 a cogs:Columns ;
 .
 
 cogsgit:pmd1 a cogs:PMD ;
-  rdfs:label "" ;
+  rdfs:label "Upload to PMD" ;
   rdfs:comment "" ;
 .
 ###################################################################################################
