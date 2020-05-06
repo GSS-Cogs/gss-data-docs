@@ -17,11 +17,11 @@ cogs:LandingPage a owl:Class ;
 .
 cogs:Datasets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Output Datasets" ;
+  rdfs:label "Output Dataset name" ;
 .
 cogs:Sheets a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Sheets to Transform and join";
+  rdfs:label "Sheets names to join";
 .
 cogs:Columns a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
@@ -32,7 +32,7 @@ cogs:Columns a owl:Class ;
 
 cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
-  rdfs:comment <a href="https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness">Landing Page</a>;
+  rdfs:comment "<a href='https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness'>Landing Page</a>";
   cogs:requires cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
 .
 
@@ -80,18 +80,18 @@ cogsgit:dataset4 a cogs:Datasets ;
 
 cogsgit:columns1 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "Period, Accommodation Type, Household Composition, Initial Assessment, Reason for loss or threat of loss of home, Support needs of household, Duty Owed, Referral Public Body, Eligibility for Homelessness Status" ;
+  rdfs:comment "Period, Accommodation Type, Household Composition, Initial Assessment, Reason for loss or threat of loss of home, Support needs of household, Duty Owed, Referral Public Body, Eligibility for Homelessness Status, Measure Type, Unit, Marker, Value" ;
 .
 cogsgit:columns2 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "ONS Geography Code, Period, Accommodation Type, Reason duty Ended, Duty Type" ;
+  rdfs:comment "Period, ONS Geography Code, Accommodation Type, Reason duty Ended, Duty Type, Measure Type, Unit, Marker, Value" ;
 .
 cogsgit:columns3 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "ONS Geography Code, Period, Decision on Duty Owed, Reason duty Ended, Priority Need" ;
+  rdfs:comment "Period, ONS Geography Code, Decision on Duty Owed, Reason duty Ended, Priority Need, Measure Type, Unit, Marker, Value" ;
 .
 cogsgit:columns4 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "ONS Geography Code, Period, Accommodation Type, Household Composition" ;
+  rdfs:comment "Period, ONS Geography Code, Accommodation Type, Household Composition, Measure Type, Unit, Marker, Value" ;
 .
 ###################################################################################################
