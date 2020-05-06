@@ -12,7 +12,7 @@ cogs:SoftwarePackage a owl:Class ;
   rdfs:label "Software package" ;
 .
 cogs:LandingPage a owl:Class ;
-rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
   rdfs:label "Original Data" ;
 .
 cogs:Datasets a owl:Class ;
@@ -27,11 +27,6 @@ cogs:Columns a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
   rdfs:label "Columns" ;
 .
-
-cogs:splits_into a owl:ObjectProperty ;
-  rdfs:subPropertyOf cogs:action ;
-  rdfs:label "splits into" ;
-  cogs:vis cogs:edge ;
 
 ###########################################################################################################
 
