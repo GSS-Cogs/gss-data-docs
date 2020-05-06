@@ -34,8 +34,8 @@ cogs:PMD a owl:Class ;
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
-  rdfs:label "This is another example" ;
-  rdfs:comment "https://www.gov.uk/";
+  rdfs:label "MHCLG Rough Sleeping in England" ;
+  rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
   cogs:splits cogsgit:sheet1 ;
 .
 
