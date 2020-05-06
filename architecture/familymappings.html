@@ -88,11 +88,7 @@
           });
           console.log(packages);
           const requires = store.statementsMatching(undefined, COGS('requires'), undefined);
-          const actionProps = new Set(store.each(undefined, RDFS("subPropertyOf"), COGS("action")));
-          const processTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("Process")));
-          const nodes = new Set(store.each(undefined, COGS("vis"), COGS("node")));
-          const properties = new Set(store.each(undefined, COGS("vis"), COGS("edge")));
-          const g = new dagreD3.graphlib.Graph({compound: true}).setGraph({rankDir: 'TB'});
+          const requires = store.statementsMatching(undefined, COGS('splits into'), undefined);
           console.log(requires);
           const nodes = new Set();
           requires.forEach(s => {
