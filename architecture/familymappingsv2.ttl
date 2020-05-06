@@ -83,4 +83,11 @@ cogs:scrapes a owl:ObjectProperty ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
   cogs:vis cogs:node ;
+  cogs:requires :secondmain ;
+.
+
+:secondmain a cogs:Process ;
+  rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
+  rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
+  cogs:vis cogs:node ;
 .
