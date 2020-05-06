@@ -28,22 +28,6 @@ cogs:Columns a owl:Class ;
   rdfs:label "Columns" ;
 .
 
-
-#cogs:splits_into a owl:ObjectProperty ;
-#  rdfs:subPropertyOf cogs:action ;
-#  rdfs:label "splits into" ;
-#  cogs:vis cogs:edge ;
-#.
-#cogs:transforms_into a owl:ObjectProperty ;
-#  rdfs:subPropertyOf cogs:action ;
-#  rdfs:label "transforms into" ;
-#  cogs:vis cogs:edge ;
-#.
-#cogs:outputs_columns a owl:ObjectProperty ;
-#  rdfs:subPropertyOf cogs:action ;
-#  rdfs:label "outputs columns" ;
-#  cogs:vis cogs:edge ;
-#.
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
