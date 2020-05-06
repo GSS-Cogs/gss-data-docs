@@ -91,9 +91,11 @@
           const requires = store.statementsMatching(undefined, COGS('requires'), undefined);
           const splits = store.statementsMatching(undefined, COGS('splits'), undefined);
           const transforms = store.statementsMatching(undefined, COGS('transforms'), undefined);
+          const outputs = store.statementsMatching(undefined, COGS('outputs'), undefined);
           console.log(requires);
           console.log(splits);
           console.log(transforms);
+          console.log(outputs)
           const nodes = new Set();
           requires.forEach(s => {
             nodes.add(s.subject);
@@ -104,6 +106,10 @@
             nodes.add(s.object);
           });
           transforms.forEach(s => {
+            nodes.add(s.subject);
+            nodes.add(s.object);
+          });
+          outputs.forEach(s => {
             nodes.add(s.subject);
             nodes.add(s.object);
           });
@@ -158,6 +164,9 @@
           });
           transforms.forEach(s => {
             g.setEdge(s.subject.value, s.object.value, {label: 'transforms', curve: d3.curveBasis });
+          });
+          outputs.forEach(s => {
+            g.setEdge(s.subject.value, s.object.value, {label: 'outputs', curve: d3.curveBasis });
           });
           const render = new dagreD3.render();
           const svg = d3.select("svg"),
