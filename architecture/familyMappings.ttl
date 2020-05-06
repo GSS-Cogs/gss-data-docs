@@ -28,12 +28,35 @@ cogs:Columns a owl:Class ;
   rdfs:label "Columns" ;
 .
 
+cogs:generates a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "generates" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:input_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "input" ;
+  cogs:vis cogs:edge;
+.
+
+cogs:refers_to a owl:ObjectProperty ;
+  rdfs:subPropertyOf cogs:action ;
+  rdfs:label "refers to" ;
+  cogs:vis cogs:edge ;
+.
+
+cogs:vis a owl:AnnotationProperty ;
+  rdfs:label "visualise as" ;
+.
+cogs:node a owl:Thing .
+cogs:edge a owl:Thing .
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
-  cogs:splitsinto cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
+  cogs:input_to cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
 .
 ####
 cogsgit:sheet1 a cogs:Sheets ;
