@@ -27,7 +27,10 @@ cogs:Columns a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
   rdfs:label "Table Columns" ;
 .
-
+cogs:PMD a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Publish my Data" ;
+.
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
@@ -81,17 +84,26 @@ cogsgit:dataset4 a cogs:Datasets ;
 cogsgit:columns1 a cogs:Columns ;
   rdfs:label "" ;
   rdfs:comment "Period, Accommodation Type, Household Composition, Initial Assessment, Reason for loss or threat of loss of home, Support needs of household, Duty Owed, Referral Public Body, Eligibility for Homelessness Status, Measure Type, Unit, Marker, Value" ;
+  cogs:requires cogsgit:pmd1 ;
 .
 cogsgit:columns2 a cogs:Columns ;
   rdfs:label "" ;
   rdfs:comment "Period, ONS Geography Code, Accommodation Type, Reason duty Ended, Duty Type, Measure Type, Unit, Marker, Value" ;
+  cogs:requires cogsgit:pmd1 ;
 .
 cogsgit:columns3 a cogs:Columns ;
   rdfs:label "" ;
   rdfs:comment "Period, ONS Geography Code, Decision on Duty Owed, Reason duty Ended, Priority Need, Measure Type, Unit, Marker, Value" ;
+  cogs:requires cogsgit:pmd1 ;
 .
 cogsgit:columns4 a cogs:Columns ;
   rdfs:label "" ;
   rdfs:comment "Period, ONS Geography Code, Accommodation Type, Household Composition, Measure Type, Unit, Marker, Value" ;
+  cogs:requires cogsgit:pmd1 ;
+.
+
+cogsgit:pmd1 a cogs:PMD ;
+  rdfs:label "" ;
+  rdfs:comment "" ;
 .
 ###################################################################################################
