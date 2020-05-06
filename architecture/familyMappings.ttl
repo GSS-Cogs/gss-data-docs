@@ -1,0 +1,108 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix cogsgit: <https://github.com/GSS-Cogs/> .
+@prefix cogs: <http://gss-cogs.uk/def/arch/> .
+
+<http://gss-cogs.uk/def/arch> a owl:Ontology;
+  rdfs:label "COGS Architecture" ;
+.
+
+cogs:SoftwarePackage a owl:Class ;
+  rdfs:label "Software package" ;
+.
+
+cogs:PythonPackage a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Python package" ;
+.
+
+cogs:JenkinsPipeline a owl:Class ;
+  rdfs:label "Jenkins Pipeline" ;
+.
+
+cogs:DockerImage a owl:Class ;
+  rdfs:label "Docker Image" ;
+.
+
+cogs:DockerContainer a owl:Class ;
+  rdfs:label "Docker Container" ;
+.
+
+cogs:ClojureLibrary a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Clojure Library";
+.
+
+cogs:JenkinsPlugin a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Jenkins Plugin" ;
+.
+
+###########################################################################################################
+
+cogsgit:top-level a cogs:DockerImage ;
+  rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
+  rdfs:comment "Assessment for Homelessness or threatened with Homelessness";
+  cogs:requires cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
+.
+
+cogsgit:sheet1 a cogs:ClojureLibrary ;
+  rdfs:label "Sheets" ;
+  rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
+  cogs:requires cogsgit:dataset1 ;
+.
+cogsgit:sheet2 a cogs:ClojureLibrary ;
+  rdfs:label "Sheets" ;
+  rdfs:comment "P1, P2, R1, R2" ;
+  cogs:requires cogsgit:dataset2 ;
+.
+cogsgit:sheet3 a cogs:ClojureLibrary ;
+  rdfs:label "Sheets" ;
+  rdfs:comment "MD1, MD2, MD3" ;
+  cogs:requires cogsgit:dataset3 ;
+.
+cogsgit:sheet4 a cogs:ClojureLibrary ;
+  rdfs:label "Sheets" ;
+  rdfs:comment "TA1, TA2" ;
+  cogs:requires cogsgit:dataset4 ;
+.
+
+cogsgit:dataset1 a cogs:RubyLibrary ;
+  rdfs:label "Dataset" ;
+  rdfs:comment "MHCLG Homelessness - Households initially assessed as threatened with homelessness (owed prevention duty) or homeless (owed relief duty)" ;
+  cogs:requires cogsgit:columns1 ;
+.
+cogsgit:dataset2 a cogs:RubyLibrary ;
+  rdfs:label "Dataset" ;
+  rdfs:comment "MHCLG Homelessness - Households whose prevention or relief duty ended by reason and accommodation type" ;
+  cogs:requires cogsgit:columns2 ;
+.
+cogsgit:dataset3 a cogs:RubyLibrary ;
+  rdfs:label "Dataset" ;
+  rdfs:comment "MHCLG - Households assessed, following relief duty end, as unintentionally homeless and priority need (owed main duty)" ;
+  cogs:requires cogsgit:columns3 ;
+.
+cogsgit:dataset4 a cogs:RubyLibrary ;
+  rdfs:label "Dataset" ;
+  rdfs:comment "MHCLG Homelessness - Households in temporary accommodation by household composition and accommodation type" ;
+  cogs:requires cogsgit:columns4 ;
+.
+
+cogsgit:columns1 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
+  rdfs:comment "Period, Accommodation Type, Household Composition, Initial Assessment, Reason for loss or threat of loss of home, Support needs of household, Duty Owed, Referral Public Body, Eligibility for Homelessness Status" ;
+.
+cogsgit:columns2 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
+  rdfs:comment "ONS Geography Code, Period, Accommodation Type, Reason duty Ended, Duty Type" ;
+.
+cogsgit:columns3 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
+  rdfs:comment "ONS Geography Code, Period, Decision on Duty Owed, Reason duty Ended, Priority Need" ;
+.
+cogsgit:columns4 a cogs:JenkinsPlugin ;
+  rdfs:label "Columns" ;
+  rdfs:comment "ONS Geography Code, Period, Accommodation Type, Household Composition" ;
+.
+###################################################################################################
