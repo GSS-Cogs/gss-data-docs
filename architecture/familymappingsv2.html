@@ -82,9 +82,6 @@
 .card-header.Resource {
     background-color: darkgoldenrod;
 }
-.card-header.Columns {
-    background-color: darkgoldenrod;
-}
     </style></svg>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -93,7 +90,7 @@
     <script>
       const store = $rdf.graph();
       const fetcher = new $rdf.Fetcher(store, 5000);
-      const process = (window.location.search != '' ? window.location.search.substring(1) : 'familymappingsv2.ttl')
+      const process = (window.location.search != '' ? window.location.search.substring(1) : 'transform_v3.ttl')
       const info_url = new URL(process, window.location);
       const COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
       const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
