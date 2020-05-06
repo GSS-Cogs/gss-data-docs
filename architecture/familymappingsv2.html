@@ -19,7 +19,7 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./">Architecturesssss</a>
+            <a class="nav-link" href="./">Architecture</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="components.html">Components</a>
@@ -90,14 +90,20 @@
           console.log(packages);
           const requires = store.statementsMatching(undefined, COGS('requires'), undefined);
           const splits = store.statementsMatching(undefined, COGS('splits'), undefined);
+          const tranforms = store.statementsMatching(undefined, COGS('transforms'), undefined);
           console.log(requires);
           console.log(splits);
+          console.log(transforms);
           const nodes = new Set();
           requires.forEach(s => {
             nodes.add(s.subject);
             nodes.add(s.object);
           });
           splits.forEach(s => {
+            nodes.add(s.subject);
+            nodes.add(s.object);
+          });
+          transforms.forEach(s => {
             nodes.add(s.subject);
             nodes.add(s.object);
           });
@@ -145,12 +151,13 @@
             });
           });
           requires.forEach(s => {
-            g.setEdge(s.subject.value, s.object.value, {label: 'requires',
-                                                        curve: d3.curveBasis });
+            g.setEdge(s.subject.value, s.object.value, {label: 'requires', curve: d3.curveBasis });
           });
           splits.forEach(s => {
-            g.setEdge(s.subject.value, s.object.value, {label: 'splits',
-                                                        curve: d3.curveBasis });
+            g.setEdge(s.subject.value, s.object.value, {label: 'splits', curve: d3.curveBasis });
+          });
+          transforms.forEach(s => {
+            g.setEdge(s.subject.value, s.object.value, {label: 'transforms', curve: d3.curveBasis });
           });
           const render = new dagreD3.render();
           const svg = d3.select("svg"),
