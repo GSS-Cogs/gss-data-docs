@@ -90,7 +90,7 @@
     <script>
       const store = $rdf.graph();
       const fetcher = new $rdf.Fetcher(store, 5000);
-      const process = (window.location.search != '' ? window.location.search.substring(1) : 'transform_v3.ttl')
+      const process = (window.location.search != '' ? window.location.search.substring(1) : 'familymappingsv2.ttl')
       const info_url = new URL(process, window.location);
       const COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
       const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
