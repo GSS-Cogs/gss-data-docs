@@ -87,7 +87,7 @@
             store.each(undefined, RDF("type"), t).forEach(p => packages.add(p));
           });
           console.log(packages);
-          const requires = store.statementsMatching(undefined, COGS('Leads_to'), undefined);
+          const requires = store.statementsMatching(undefined, COGS('requires'), undefined);
           console.log(requires);
           const nodes = new Set();
           requires.forEach(s => {
