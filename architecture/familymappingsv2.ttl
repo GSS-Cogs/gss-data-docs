@@ -104,6 +104,6 @@ cogsgit:columns4 a cogs:Columns ;
 
 cogsgit:pmd1 a cogs:PMD ;
   rdfs:label "" ;
-  rdfs:comment "Publish my Data" ;
+  rdfs:comment "Publish my Data: http://gss-data.org.uk/data/search" ;
 .
 ###################################################################################################
