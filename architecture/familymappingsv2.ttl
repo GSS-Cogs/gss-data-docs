@@ -117,11 +117,10 @@ cogs:scrapes a owl:ObjectProperty ;
 .
 
 :main_py a cogs:Process ;
-  rdfs:label "main.py" ;
-  rdfs:comment "A Jupyter notebook using Databaker, Pandas and gss-utils to convert a spreadsheet to Tidy data.";
+  rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
+  rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
   cogs:vis cogs:node ;
   cogs:generates :observations_csv ;
-  cogs:uses :gss-utils ;
   cogs:container :jupyter_transform ;
 .
 
