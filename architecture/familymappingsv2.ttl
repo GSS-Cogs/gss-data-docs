@@ -63,22 +63,22 @@ cogsgit:sheet4 a cogs:Sheets ;
 cogsgit:dataset1 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG Homelessness - Households initially assessed as threatened with homelessness (owed prevention duty) or homeless (owed relief duty)" ;
-  cogs:requires cogsgit:columns1 ;
+  cogs:outputs cogsgit:columns1 ;
 .
 cogsgit:dataset2 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG Homelessness - Households whose prevention or relief duty ended by reason and accommodation type" ;
-  cogs:requires cogsgit:columns2 ;
+  cogs:outputs cogsgit:columns2 ;
 .
 cogsgit:dataset3 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG - Households assessed, following relief duty end, as unintentionally homeless and priority need (owed main duty)" ;
-  cogs:requires cogsgit:columns3 ;
+  cogs:outputs cogsgit:columns3 ;
 .
 cogsgit:dataset4 a cogs:Datasets ;
   rdfs:label "" ;
   rdfs:comment "MHCLG Homelessness - Households in temporary accommodation by household composition and accommodation type" ;
-  cogs:requires cogsgit:columns4 ;
+  cogs:outputs cogsgit:columns4 ;
 .
 
 cogsgit:columns1 a cogs:Columns ;
