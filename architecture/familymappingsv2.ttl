@@ -36,13 +36,13 @@ cogs:PMD a owl:Class ;
 cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "Statutory Homelessness detailed Local Authority-Level" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
-  cogs:requires cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
+  cogs:splits cogsgit:sheet1, cogsgit:sheet2, cogsgit:sheet3, cogsgit:sheet4 ;
 .
 
 cogsgit:sheet1 a cogs:Sheets ;
   rdfs:label "" ;
   rdfs:comment "A1, A2, A3, A4, A5P, A5R, A7, A11" ;
-  cogs:splits cogsgit:dataset1 ;
+  cogs:requires cogsgit:dataset1 ;
 .
 cogsgit:sheet2 a cogs:Sheets ;
   rdfs:label "" ;
