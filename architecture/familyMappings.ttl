@@ -93,19 +93,19 @@ cogsgit:dataset4 a cogs:Datasets ;
   cogs:outputs_columns cogsgit:columns4 ;
 .
 
-cogsgit:columns1 a cogs:JenkinsPlugin ;
+cogsgit:columns1 a cogs:Columns ;
   rdfs:label "Columns" ;
   rdfs:comment "Period, Accommodation Type, Household Composition, Initial Assessment, Reason for loss or threat of loss of home, Support needs of household, Duty Owed, Referral Public Body, Eligibility for Homelessness Status" ;
 .
-cogsgit:columns2 a cogs:JenkinsPlugin ;
+cogsgit:columns2 a cogs:Columns ;
   rdfs:label "Columns" ;
   rdfs:comment "ONS Geography Code, Period, Accommodation Type, Reason duty Ended, Duty Type" ;
 .
-cogsgit:columns3 a cogs:JenkinsPlugin ;
+cogsgit:columns3 a cogs:Columns ;
   rdfs:label "Columns" ;
   rdfs:comment "ONS Geography Code, Period, Decision on Duty Owed, Reason duty Ended, Priority Need" ;
 .
-cogsgit:columns4 a cogs:JenkinsPlugin ;
+cogsgit:columns4 a cogs:Columns ;
   rdfs:label "Columns" ;
   rdfs:comment "ONS Geography Code, Period, Accommodation Type, Household Composition" ;
 .
