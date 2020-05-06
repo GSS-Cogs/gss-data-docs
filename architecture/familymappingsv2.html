@@ -89,7 +89,9 @@
           });
           console.log(packages);
           const requires = store.statementsMatching(undefined, COGS('requires'), undefined);
+          const splits = store.statementsMatching(undefined, COGS('splits'), undefined);
           console.log(requires);
+          console.log(splits)
           const nodes = new Set();
           requires.forEach(s => {
             nodes.add(s.subject);
