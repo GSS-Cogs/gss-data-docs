@@ -31,6 +31,10 @@ cogs:PMD a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
   rdfs:label "PMD" ;
 .
+cogs:spec a owl:Class ;
+  rdfs:subClassOf cogs:SoftwarePackage ;
+  rdfs:label "Specification" ;
+.
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
@@ -66,3 +70,15 @@ cogsgit:pmd1 a cogs:PMD ;
 .
 ###################################################################################################
 
+cogsgit:spec1 a cogs:spec ;
+  rdfs:label "" ;
+  rdfs:comment "
+  MHCLG Rough Sleeping
+
+  Sheet: table 1
+
+  (A) ONS Code - change name to ONS Geography code
+  (B) Local Authority - Not needed as we have ONS Code
+  (C) Higher level Local Authority - Not needed as we have ONS Code
+  " ;
+.
