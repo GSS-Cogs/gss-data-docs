@@ -29,11 +29,11 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Family Mappings
+              Specifications
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="familyhomelessness.html?">Homelessness</a>
-              <a class="dropdown-item" href="familyhomelessness.html">Spare</a>
+              <a class="dropdown-item" href="../familyhomelessness.html?">Homelessness</a>
+              <a class="dropdown-item" href="../familyhomelessness.html">Spare</a>
             </div>
           </li>
         </ul>
@@ -101,11 +101,13 @@
           const transforms = store.statementsMatching(undefined, COGS('transforms'), undefined);
           const outputs = store.statementsMatching(undefined, COGS('outputs'), undefined);
           const uploads = store.statementsMatching(undefined, COGS('uploads'), undefined);
+          const joins = store.statementsMatching(undefined, COGS('joins'), undefined);
           console.log(requires);
           console.log(splits);
           console.log(transforms);
           console.log(outputs)
           console.log(uploads)
+          console.log(joins)
           const nodes = new Set();
           requires.forEach(s => {
             nodes.add(s.subject);
@@ -124,6 +126,10 @@
             nodes.add(s.object);
           });
           uploads.forEach(s => {
+            nodes.add(s.subject);
+            nodes.add(s.object);
+          });
+          joins.forEach(s => {
             nodes.add(s.subject);
             nodes.add(s.object);
           });
@@ -184,6 +190,9 @@
           });
           uploads.forEach(s => {
             g.setEdge(s.subject.value, s.object.value, {label: 'uploads', curve: d3.curveBasis });
+          });
+          joins.forEach(s => {
+            g.setEdge(s.subject.value, s.object.value, {label: 'joins', curve: d3.curveBasis });
           });
           const render = new dagreD3.render();
           const svg = d3.select("svg"),
