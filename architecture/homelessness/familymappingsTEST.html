@@ -170,12 +170,6 @@
             }
             html += '</p>';
             html += '</div></div>';
-
-            if (t == 'spec') {
-              html = '<div class="card-header">Specification</div>
-                      <div class="card-body"><p class="card-text text-wrap">' + c.value + '</p></div>'
-            }
-
             g.setNode(n.value, {
               labelType: 'html',
               label: html,
@@ -211,11 +205,60 @@
         }
       });
     </script>
-    <div class="card-header">Testing Testing Testing</div>
-    <div class="card-body">
-      <h4 class="card-title text-wrap">Title</h4>
-      <p class="card-text text-wrap">Some Text
-      <a href="''"><i class="pull-right fa fa-external-link">A Link</i></a>
-    </div>
+    <script>
+      ////////////////////////////////////////////////////////////////////////////
+      const store = $rdf.graph();
+      const fetcher = new $rdf.Fetcher(store, 5000);
+      const process = (window.location.search != '' ? window.location.search.substring(1) : 'familymappings.ttl')
+      const info_url = new URL(process, window.location);
+      const COGS = $rdf.Namespace("http://gss-cogs.uk/def/arch/");
+      const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+      const RDFS = $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
+
+      fetcher.nowOrWhenFetched(info_url.href, function(ok, body, xhr) {
+        if (!ok) {
+          console.log("Error fetching data.");
+        } else {
+          console.log("Ok, parsed.");
+          const packageTypes = new Set(store.each(undefined, RDFS("subClassOf"), COGS("SoftwarePackage")));
+          const packages = new Set();
+          packageTypes.forEach(t => {
+            store.each(undefined, RDF("type"), t).forEach(p => packages.add(p));
+          });
+          console.log(packages);
+          const nodes = new Set();
+          packages.forEach(p => {
+            nodes.add(p);
+          });
+          const g = new dagreD3.graphlib.Graph().setGraph({rankDir: 'LR'});
+          nodes.forEach(n => {
+            const l = store.any(n, RDFS('label'));
+            const c = store.any(n, RDFS('comment'));
+            const t = store.any(n, RDF('type'))
+            const tl = store.any(t, RDFS('label'));
+            let html = '<div class="card card-node">';
+
+            if (t == 'spec') {
+              html = '<div class="card-header">Specification</div>
+                      <div class="card-body"><p class="card-text text-wrap">' + c.value + '</p></div></div>'
+            }
+
+            g.setNode(n.value, {
+              labelType: 'html',
+              label: html,
+              padding: 0
+            });
+          });
+          document.write(html)
+          const render = new dagreD3.render();
+          const svg = d3.select("svg"),
+              svgGroup = svg.append("g");
+          render(d3.select("svg g"), g);
+          svgGroup.attr("transform", "translate(20, 20)");
+          svg.attr("height", g.graph().height + 40);
+          svg.attr("width", g.graph().width + 40);
+        }
+      });
+    </script>
   </body>
 </html>
