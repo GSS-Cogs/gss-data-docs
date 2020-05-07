@@ -41,6 +41,7 @@ cogsgit:top-level a cogs:LandingPage ;
   rdfs:label "MHCLG Rough Sleeping in England" ;
   rdfs:comment "https://www.gov.uk/government/statistical-data-sets/live-tables-on-homelessness";
   cogs:splits cogsgit:sheet1 ;
+  cogs:transforms cogsgit:spec1 ;
 .
 
 cogsgit:sheet1 a cogs:Sheets ;
