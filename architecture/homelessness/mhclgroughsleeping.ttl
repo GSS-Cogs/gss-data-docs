@@ -31,10 +31,7 @@ cogs:PMD a owl:Class ;
   rdfs:subClassOf cogs:SoftwarePackage ;
   rdfs:label "PMD" ;
 .
-cogs:spec a owl:Class ;
-  rdfs:subClassOf cogs:SoftwarePackage ;
-  rdfs:label "Specification" ;
-.
+
 ###########################################################################################################
 
 cogsgit:top-level a cogs:LandingPage ;
