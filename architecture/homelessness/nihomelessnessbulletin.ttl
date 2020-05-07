@@ -84,17 +84,17 @@ cogsgit:dataset3 a cogs:Datasets ;
 
 cogsgit:columns1 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "Period, ONS geography code, Household composition, Accommodation not reasonable breakdown, Intimidation breakdown, Reason for homelessness, Loss of rented accommodation reason, Assessment decision, Legislative test outcome, Repeat homeless presentations" ;
+  rdfs:comment "Period, ONS geography code, Household composition, Accommodation not reasonable breakdown, Intimidation breakdown, Reason for homelessness, Loss of rented accommodation reason, Assessment decision, Legislative test outcome, Repeat homeless presentations, Measure Type, Unit, Marker, Value" ;
   cogs:uploads cogsgit:pmd1 ;
 .
 cogsgit:columns2 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "Period, ONS geography code, Household composition, Age, Accommodation not reasonable breakdown, Intimidation breakdown, Reason for homelessness, Priority need category, Assessment Outcome, Assessment decision" ;
+  rdfs:comment "Period, ONS geography code, Household composition, Age, Accommodation not reasonable breakdown, Intimidation breakdown, Reason for homelessness, Priority need category, Assessment Outcome, Assessment decision, Measure Type, Unit, Marker, Value" ;
   cogs:uploads cogsgit:pmd1 ;
 .
 cogsgit:columns3 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "Period ONS geography code, Household Composition, Age, Accommodation type, Length of Stay" ;
+  rdfs:comment "Period ONS geography code, Household Composition, Age, Accommodation type, Length of Stay, Measure Type, Unit, Marker, Value" ;
   cogs:uploads cogsgit:pmd1 ;
 .
 

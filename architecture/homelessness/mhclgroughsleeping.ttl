@@ -55,7 +55,7 @@ cogsgit:dataset1 a cogs:Datasets ;
 
 cogsgit:columns1 a cogs:Columns ;
   rdfs:label "" ;
-  rdfs:comment "Period, ONS Geography Code, Sex, Nationality, Age, Percentage of Total, Yearly Percentage Change, Projected Number of Households, Rough Sleeping Rate" ;
+  rdfs:comment "Period, ONS Geography Code, Sex, Nationality, Age, Percentage of Total, Yearly Percentage Change, Projected Number of Households, Rough Sleeping Rate, Measure Type, Unit, Marker, Value" ;
   cogs:uploads cogsgit:pmd1 ;
 .
 
