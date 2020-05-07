@@ -70,16 +70,3 @@ cogsgit:pmd1 a cogs:PMD ;
   rdfs:comment "Publish my Data: http://gss-data.org.uk/data/search" ;
 .
 ###################################################################################################
-
-cogsgit:spec1 a cogs:spec ;
-  rdfs:label "" ;
-  rdfs:comment "
-  MHCLG Rough Sleeping
-
-  Sheet: table 1
-
-  (A) ONS Code - change name to ONS Geography code
-  (B) Local Authority - Not needed as we have ONS Code
-  (C) Higher level Local Authority - Not needed as we have ONS Code
-  " ;
-.
