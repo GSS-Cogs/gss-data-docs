@@ -130,7 +130,8 @@ Add Unit column with value Count
 Add Nationality column with value All
 
 
-All data should be joined together in 1 dataset with the nam
+All data should be joined together in 1 dataset with the name
+
 **MHCLG Rough Sleeping in England**
 
 
