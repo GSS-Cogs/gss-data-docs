@@ -4,7 +4,7 @@ function dimensionTree(dimDatasets, dims, start=null) {
         ((start !== null) && dim.hasOwnProperty('super') && dim.super.value === start)
     );
     if (thisLevel.length > 0) {
-        let html = start === null ? '<ul>\n' : '<ul class="nested">';
+        let html = start === null ? '<ul class="top">\n' : '<ul class="nested">';
         thisLevel.sort(function (a, b) {
             if (a.label.value > b.label.value) {
                 return 1;
@@ -15,18 +15,21 @@ function dimensionTree(dimDatasets, dims, start=null) {
             }
         }).forEach((dim) => {
             const nested = dimensionTree(dimDatasets, dims, dim.dim.value)
+            const datasets = dimDatasets.has(dim.dim.value) ? dimDatasets.get(dim.dim.value) : new Set();
             html = html + '<li>';
             if (nested.length > 0) {
-                html = html + `<span class="caret"><a href="${dim.dim.value}">${dim.label.value}</a></span>\n`;
-                if (dim.hasOwnProperty('comment')) {
-                    html = html + `<p>${dim.comment.value}</p>\n`;
-                }
-                html = html + nested;
+                html = html + `<span class="caret"><a class="term" href="${dim.dim.value}">${dim.label.value}</a></span>\n`;
             } else {
-                html = html + `<a href="${dim.dim.value}">${dim.label.value}</a>`;
-                if (dim.hasOwnProperty('comment')) {
-                    html = html + `<p>${dim.comment.value}</p>\n`;
-                }
+                html = html + `<a class="term" href="${dim.dim.value}">${dim.label.value}</a>`;
+            }
+            if (datasets.size > 0) {
+                html = html + `<span title="${Array.from(datasets).join(' ')}" class="used">(${datasets.size})</span>`
+            }
+            if (dim.hasOwnProperty('comment')) {
+                html = html + `<p>${dim.comment.value}</p>\n`;
+            }
+            if (nested.length > 0) {
+                html = html + nested;
             }
             html = html + '</li>\n';
         });
@@ -54,7 +57,7 @@ WHERE {
        rdfs:label ?label .
   OPTIONAL { ?dim rdfs:comment ?comment } .
   OPTIONAL { ?dim rdfs:subPropertyOf ?super } .
-  OPTIONAL { ?dim rdfs:seeAlso ?doc } .
+  OPTIONAL { ?dim rdfs:isDefinedBy ?doc } .
 }`})
         .then((response) => response.json())
         .then((json) => {
@@ -63,6 +66,10 @@ WHERE {
                 dims.set(binding.dim.value, binding)
             });
             document.getElementById('dimensions').innerHTML = dimensionTree(dimDatasets, dims);
+            $('.caret').click(function() {
+                $(this).parent().find('.nested').toggleClass('active');
+                $(this).toggleClass('caret-down');
+            });
         });
 }
 
@@ -84,7 +91,7 @@ WHERE {
     })
         .then((response) => response.json())
         .then((json) => {
-            let dimDatasets = Map();
+            let dimDatasets = new Map();
             json.results.bindings.forEach((binding) => {
                 let datasets = dimDatasets.has(binding.dim.value) ? dimDatasets.get(binding.dim.value) : new Set();
                 datasets.add(binding.dataset.value);
@@ -94,4 +101,4 @@ WHERE {
         });
 }
 
-listDimensions();
+datasetDimensions();

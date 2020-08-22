@@ -1,0 +1,46 @@
+ul.top, ul.nested {
+    list-style-type: none;
+}
+
+ul.top {
+    margin: 0;
+    padding: 0;
+}
+
+a.term {
+    font-weight: bold;
+}
+
+span.used {
+    font-weight: lighter;
+    margin-left: 0.5rem;
+}
+
+li p {
+    margin-bottom: 0;
+    margin-left: 1rem;
+}
+
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+
+.caret::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.caret-down::before {
+    transform: rotate(90deg);
+}
+
+.nested {
+    display: none;
+}
+
+.active {
+    display: block;
+}
