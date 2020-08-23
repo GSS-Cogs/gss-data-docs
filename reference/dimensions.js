@@ -26,7 +26,11 @@ function dimensionTree(dimDatasets, dims, start=null) {
                 html = html + `<span title="${Array.from(datasets).join(' ')}" class="used">(${datasets.size})</span>`
             }
             if (dim.hasOwnProperty('comment')) {
-                html = html + `<p>${dim.comment.value}</p>\n`;
+                html = html + `<p>${dim.comment.value}\n`;
+                if (dim.hasOwnProperty('def')) {
+                    html = html + `<span class="text-right font-italic"><a href="${dim.def.value}">Source</a></span>`;
+                }
+                html = html + '</p>';
             }
             if (nested.length > 0) {
                 html = html + nested;
@@ -57,7 +61,7 @@ WHERE {
        rdfs:label ?label .
   OPTIONAL { ?dim rdfs:comment ?comment } .
   OPTIONAL { ?dim rdfs:subPropertyOf ?super } .
-  OPTIONAL { ?dim rdfs:isDefinedBy ?doc } .
+  OPTIONAL { ?dim rdfs:isDefinedBy ?def } .
 }`})
         .then((response) => response.json())
         .then((json) => {
