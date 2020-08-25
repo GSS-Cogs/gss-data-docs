@@ -1,4 +1,4 @@
-function dimensionTree(dimDatasets, dims, start=null) {
+function dimensionTree(datasetInfo, dimDatasets, dims, start = null) {
     let thisLevel = Array.from(dims.values()).filter((dim) =>
         ((start === null) && !dim.hasOwnProperty('super')) ||
         ((start !== null) && dim.hasOwnProperty('super') && dim.super.value === start)
@@ -14,7 +14,7 @@ function dimensionTree(dimDatasets, dims, start=null) {
                 return 0;
             }
         }).forEach((dim) => {
-            const nested = dimensionTree(dimDatasets, dims, dim.dim.value)
+            const nested = dimensionTree(datasetInfo, dimDatasets, dims, dim.dim.value)
             const datasets = dimDatasets.has(dim.dim.value) ? dimDatasets.get(dim.dim.value) : new Set();
             html = html + '<li>';
             if (nested.length > 0) {
@@ -23,7 +23,8 @@ function dimensionTree(dimDatasets, dims, start=null) {
                 html = html + `<a class="term" href="${dim.dim.value}">${dim.label.value}</a>`;
             }
             if (datasets.size > 0) {
-                html = html + `<span title="${Array.from(datasets).join(' ')}" class="used">(${datasets.size})</span>`
+                const labels = Array.from(datasets).map((uri) => datasetInfo.get(uri).label.value);
+                html = html + `<span data-toggle="tooltip" data-html="true" title="${labels.join('<br />')}" class="used">(${datasets.size})</span>`
             }
             if (dim.hasOwnProperty('comment')) {
                 html = html + `<p>${dim.comment.value}\n`;
@@ -44,15 +45,19 @@ function dimensionTree(dimDatasets, dims, start=null) {
     }
 }
 
-function listDimensions(dimDatasets) {
-    fetch('https://staging.gss-data.org.uk/sparql', {
+function sparql(query) {
+    return fetch('https://staging.gss-data.org.uk/sparql', {
         method: 'POST',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/sparql-query',
             'Accept': 'application/sparql-results+json'
         },
-        body: `PREFIX qb: <http://purl.org/linked-data/cube#>
+        body: query
+    }).then((response) => response.json())
+}
+
+listDimensions = sparql(`PREFIX qb: <http://purl.org/linked-data/cube#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT *
@@ -62,47 +67,54 @@ WHERE {
   OPTIONAL { ?dim rdfs:comment ?comment } .
   OPTIONAL { ?dim rdfs:subPropertyOf ?super } .
   OPTIONAL { ?dim rdfs:isDefinedBy ?def } .
-}`})
-        .then((response) => response.json())
-        .then((json) => {
-            let dims = new Map();
-            json.results.bindings.forEach((binding) => {
-                dims.set(binding.dim.value, binding)
-            });
-            document.getElementById('dimensions').innerHTML = dimensionTree(dimDatasets, dims);
-            $('.caret').click(function() {
-                $(this).parent().find('.nested').toggleClass('active');
-                $(this).toggleClass('caret-down');
-            });
-        });
-}
+}`).then((json) => {
+    let dims = new Map();
+    json.results.bindings.forEach((binding) => {
+        dims.set(binding.dim.value, binding)
+    });
+    return dims;
+});
 
-function datasetDimensions() {
-    fetch('https://staging.gss-data.org.uk/sparql', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/sparql-query',
-            'Accept': 'application/sparql-results+json'
-        },
-        body: `PREFIX qb: <http://purl.org/linked-data/cube#>
-
+datasetDimensions = sparql(`PREFIX qb: <http://purl.org/linked-data/cube#>
 SELECT DISTINCT *
 WHERE {
   ?dataset a qb:DataSet ;
              qb:structure / qb:component / qb:dimension ?dim .
-}`
-    })
-        .then((response) => response.json())
-        .then((json) => {
-            let dimDatasets = new Map();
-            json.results.bindings.forEach((binding) => {
-                let datasets = dimDatasets.has(binding.dim.value) ? dimDatasets.get(binding.dim.value) : new Set();
-                datasets.add(binding.dataset.value);
-                dimDatasets.set(binding.dim.value, datasets);
-            });
-            listDimensions(dimDatasets);
-        });
-}
+}`).then((json) => {
+    let dimDatasets = new Map();
+    json.results.bindings.forEach((binding) => {
+        let datasets = dimDatasets.has(binding.dim.value) ? dimDatasets.get(binding.dim.value) : new Set();
+        datasets.add(binding.dataset.value);
+        dimDatasets.set(binding.dim.value, datasets);
+    });
+    return dimDatasets;
+});
 
-datasetDimensions();
+listDatasets = sparql(`PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX pmdcat: <http://publishmydata.com/pmdcat#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT *
+WHERE {
+  ?dataset a qb:DataSet .
+  ?cat pmdcat:datasetContents ?dataset ;
+    rdfs:label ?label ;
+  OPTIONAL { ?cat dct:publisher [ rdfs:label ?publisher ] } .
+}`).then((json) => {
+    let datasets = new Map();
+    json.results.bindings.forEach((binding) => {
+        datasets.set(binding.dataset.value, binding);
+    });
+    return datasets;
+});
+
+Promise
+    .all([listDatasets, datasetDimensions, listDimensions])
+    .then(function ([datasets, dimDatasets, dims]) {
+        document.getElementById('dimensions').innerHTML = dimensionTree(datasets, dimDatasets, dims);
+        $('.caret').click(function () {
+            $(this).parent().find('.nested').toggleClass('active');
+            $(this).toggleClass('caret-down');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+    });
