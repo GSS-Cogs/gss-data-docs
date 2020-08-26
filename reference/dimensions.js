@@ -23,8 +23,17 @@ function dimensionTree(datasetInfo, dimDatasets, dims, start = null) {
                 html = html + `<a class="term" href="${dim.dim.value}">${dim.label.value}</a>`;
             }
             if (datasets.size > 0) {
-                const labels = Array.from(datasets).map((uri) => datasetInfo.get(uri).label.value);
-                html = html + `<span data-toggle="tooltip" data-html="true" title="${labels.join('<br />')}" class="used">(${datasets.size})</span>`
+                const labels = Array.from(datasets).map((uri) => {
+                    const ds = datasetInfo.get(uri);
+                    if (ds.hasOwnProperty('abbr')) {
+                        return ds.abbr.value + ' &mdash; ' + ds.label.value;
+                    } else if (ds.hasOwnProperty('publisher')) {
+                        return ds.publisher.value + ' &mdash; ' + ds.label.value;
+                    } else {
+                        return ds.label.value;
+                    }
+                });
+                html = html + `<span data-toggle="tooltip" data-html="true" title="<ol><li>${labels.join('</li><li>')}</li></ol>" class="used">(${datasets.size})</span>`
             }
             if (dim.hasOwnProperty('comment')) {
                 html = html + `<p>${dim.comment.value}\n`;
@@ -94,12 +103,14 @@ listDatasets = sparql(`PREFIX qb: <http://purl.org/linked-data/cube#>
 PREFIX pmdcat: <http://publishmydata.com/pmdcat#>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT *
 WHERE {
   ?dataset a qb:DataSet .
   ?cat pmdcat:datasetContents ?dataset ;
     rdfs:label ?label ;
   OPTIONAL { ?cat dct:publisher [ rdfs:label ?publisher ] } .
+  OPTIONAL { ?cat dct:publisher [ skos:altLabel ?abbr ] } .
 }`).then((json) => {
     let datasets = new Map();
     json.results.bindings.forEach((binding) => {
