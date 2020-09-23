@@ -16,11 +16,13 @@ function dimensionTree(datasetInfo, dimDatasets, dims, start = null) {
         }).forEach((dim) => {
             const nested = dimensionTree(datasetInfo, dimDatasets, dims, dim.dim.value)
             const datasets = dimDatasets.has(dim.dim.value) ? dimDatasets.get(dim.dim.value) : new Set();
+            const dimLink = dim.dim.value.startsWith('http://gss-data.org.uk/') ?
+                `https://staging.gss-data.org.uk/resource?uri=${encodeURIComponent(dim.dim.value)}` : dim.dim.value;
             html = html + '<li>';
             if (nested.length > 0) {
-                html = html + `<span class="caret"><a class="term" href="${dim.dim.value}">${dim.label.value}</a></span>\n`;
+                html = html + `<span class="caret"><a class="term" href="${dimLink}">${dim.label.value}</a></span>\n`;
             } else {
-                html = html + `<a class="term" href="${dim.dim.value}">${dim.label.value}</a>`;
+                html = html + `<a class="term" href="${dimLink}">${dim.label.value}</a>`;
             }
             if (datasets.size > 0) {
                 const labels = Array.from(datasets).map((uri) => {
